@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl'
 import DeckGL from '@deck.gl/react'
-import { Tile3DLayer } from '@deck.gl/geo-layers' // 直接导入 Tile3DLayer
 import NHMap from '@renderer/common/NHMap'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { MapboxOverlay as DeckOverlay } from "@deck.gl/mapbox";
+import { Tile3DLayer } from '@deck.gl/geo-layers' // 直接导入 Tile3DLayer
 
 interface MapComponentProps {
   initialLongitude?: number
