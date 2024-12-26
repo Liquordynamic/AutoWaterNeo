@@ -1,12 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react'
-import mapboxgl from 'mapbox-gl'
-import DeckGL from '@deck.gl/react'
+import React, { useEffect } from 'react'
+import mapboxgl, { IControl } from 'mapbox-gl'
 import NHMap from '@renderer/common/NHMap'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { MapboxOverlay } from "@deck.gl/mapbox";
+import { MapboxOverlay } from '@deck.gl/mapbox'
 import { Tile3DLayer } from '@deck.gl/geo-layers'
-import { Tiles3DLoader } from "@loaders.gl/3d-tiles";
-import { userInfo } from 'os'
+import { Tiles3DLoader } from '@loaders.gl/3d-tiles'
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -14,7 +12,7 @@ interface MapComponentProps {
   initialZoom?: number
   maxZoom?: number
   viewMode?: string
-  showThreeDTile: boolean
+  showThreeDTile?: boolean
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -22,11 +20,11 @@ const MapComponent: React.FC<MapComponentProps> = ({
   initialLatitude = 22.446937,
   initialZoom = 11,
   maxZoom = 22,
-  viewMode = 'Dark',
-  showThreeDTile
+  viewMode = 'Dark'
+  // showThreeDTile = true
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
-  const [deckOverlay, setDeckOverlay] = React.useState<MapboxOverlay | null>(null)
+  // const [deckOverlay, setDeckOverlay] = React.useState<MapboxOverlay | null>(null)
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -50,20 +48,20 @@ const MapComponent: React.FC<MapComponentProps> = ({
         loader: Tiles3DLoader,
         pickable: true, //是否可以交互
         loadOptions: {
-          "3d-tiles": {
+          '3d-tiles': {
             loadGLTF: true,
             decodeQuantizedPositions: false,
-            isTileset: "auto",
-            assetGltfUpAxis: null,
-          },
+            isTileset: 'auto',
+            assetGltfUpAxis: null
+          }
         },
 
-        onTilesetLoad: (tileset) => console.log(tileset),
+        onTilesetLoad: (tileset): void => console.log(tileset)
       })
 
-      const deckOverlay = new MapboxOverlay({ layers: [title3DLayer] });
-      mapInstance.addControl(deckOverlay as any);
-      setDeckOverlay(deckOverlay)
+      const deckOverlay = new MapboxOverlay({ layers: [title3DLayer] })
+      mapInstance.addControl(deckOverlay as IControl)
+      // setDeckOverlay(deckOverlay)
 
       setMap(mapInstance)
 
@@ -83,8 +81,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
     }
   }, [viewMode])
 
-  return (
-    <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
-  )
+  return <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
 }
 export default MapComponent
