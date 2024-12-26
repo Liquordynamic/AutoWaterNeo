@@ -104,9 +104,14 @@ export function NavMenu({
             Force Reload <MenubarShortcut>CRTL+⇧+R</MenubarShortcut>
           </MenubarItem> */}
           <MenubarSeparator />
-          <MenubarItem>Toggle Fullscreen</MenubarItem>
-          {/* <MenubarSeparator /> */}
+          <MenubarItem>
+            Toggle Fullscreen <MenubarShortcut>F12</MenubarShortcut>
+            </MenubarItem>
+          <MenubarSeparator />
           {/* <MenubarItem inset>Hide Sidebar</MenubarItem> */}
+          <MenubarItem>
+            Show 3DTile <MenubarShortcut>CRTL+T</MenubarShortcut>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       {/* <MenubarMenu>
