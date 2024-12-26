@@ -13,21 +13,41 @@ function App(): JSX.Element {
   const [showDataTable, setShowDataTable] = useState(false); 
   const [showDataUpload, setShowDataUpload] = useState(false); 
   const [showModelRunAlert, setShowModelRunAlert] = useState(false); 
-  const [autoCloseModelRunAlert, setAutoCloseModelRunAlert] = useState(false);
+  const [showLayerPage, setShowLayerPage] = useState(false); 
+  const [steps, setSteps] = useState(0);
+
+  useEffect(() => {
+    if (showModelRunAlert) {
+      const interval = setInterval(() => {
+        setSteps(prevSteps => prevSteps + 50);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [showModelRunAlert]);
 
   const toggleDataTable = () => {
-    setShowDataTable((prev) => !prev);
+    setShowDataTable(true);
     setShowDataUpload(false);
+    setShowLayerPage(false);
+    setShowModelRunAlert(false);
   }
   const toggleDataUpload = () => {
-    setShowDataUpload((prev) => !prev);
+    setShowDataUpload(true);
     setShowDataTable(false);
+    setShowLayerPage(false);
+    setShowModelRunAlert(false);
   }
   const toggleModelRunAlert = () => {
-    setShowModelRunAlert((prev) => !prev);
+    setShowModelRunAlert(true);
+    setShowLayerPage(true);
     setShowDataTable(false);
     setShowDataUpload(false);
-    setAutoCloseModelRunAlert(true); // 设置自动关闭标志
+  }
+  const toggleLayerPage = () => {
+    setShowLayerPage(true);
+    setShowDataTable(false);
+    setShowDataUpload(false);
+    setShowModelRunAlert(false);
   }
   const closeDataTable = () => {
     setShowDataTable(false);
@@ -37,7 +57,9 @@ function App(): JSX.Element {
   }
   const closeModelRunAlert = () => {
     setShowModelRunAlert(false);
-    setAutoCloseModelRunAlert(false); // 重置自动关闭标志
+  }
+  const closeLayerPage = () => {
+    setShowLayerPage(false);
   }
 
   return (
@@ -49,11 +71,13 @@ function App(): JSX.Element {
         onDataTableToggle={toggleDataTable}
         onDataUploadToggle={toggleDataUpload}
         onModelRunAlertToggle={toggleModelRunAlert}
+        onLayerPageToggle={toggleLayerPage}
       />
       <div className='flex h-full mx-auto relative'>
         {showDataTable && <DataTable isVisible={true} onClose={closeDataTable}/>}
         {showDataUpload && <DataUpload isVisible={true} onClose={closeDataUpload} />}
-        {showModelRunAlert && <ModelRunAlert isVisible={true} onClose={closeModelRunAlert} /> }
+        {showModelRunAlert && <ModelRunAlert isVisible={true} onClose={closeModelRunAlert} steps={steps} /> }
+        {showLayerPage && <LayerPage isVisible={true} onClose={closeLayerPage} steps={steps} /> }
 
         <div className='flex-grow'>
           <Routes>
