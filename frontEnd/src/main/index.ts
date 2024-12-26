@@ -13,6 +13,7 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
+      contextIsolation: true,
       sandbox: false
     }
   })
@@ -34,6 +35,20 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+// 使用 ipcMain.handle 监听渲染进程的异步请求
+ipcMain.handle('sendJSONToMain', async (_event, data) => {
+  console.log('Received JSON from renderer:', data)
+
+  // 假设对数据进行一些处理
+  const result = {
+    a: 321,
+    b: 654
+  }
+
+  // 返回处理后的结果
+  return result
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
