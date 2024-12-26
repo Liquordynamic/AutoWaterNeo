@@ -11,15 +11,15 @@ import {
 } from '@renderer/components/ui/menubar'
 import { ReactElement } from 'react'
 
-
 interface NavigationProps {
   radioItems: string[]
   selectedMode: string
   onModeChange: (mode: string) => void
-  onDataTableToggle: () => void;
-  onDataUploadToggle: () => void;
-  onModelRunAlertToggle: () => void;
-  onLayerPageToggle: () => void;
+  onDataTableToggle: () => void
+  onDataUploadToggle: () => void
+  onModelRunAlertToggle: () => void
+  onLayerPageToggle: () => void
+  handleTestAPIClick: () => void
 }
 
 export function NavMenu({
@@ -30,6 +30,7 @@ export function NavMenu({
   onDataUploadToggle,
   onModelRunAlertToggle,
   onLayerPageToggle,
+  handleTestAPIClick
 }: NavigationProps): ReactElement {
   return (
     <Menubar className="top-0 w-full max-h-12 text-xl z-10">
@@ -151,6 +152,14 @@ export function NavMenu({
         <MenubarContent>
           <MenubarItem>
             Show Result <MenubarShortcut>CRTL+D</MenubarShortcut>
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Test</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem onClick={handleTestAPIClick}>
+            Test API <MenubarShortcut>CRTL+T</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
