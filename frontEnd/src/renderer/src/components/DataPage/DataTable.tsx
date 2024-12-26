@@ -11,6 +11,7 @@ const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose }) => {
 
     const [demAgreed, setDemAgreed] = useState(false);
     const [pipelineAgreed, setPipelineAgreed] = useState(false);
+    const [threeDTileAgreed, setThreeDTileAgreed] = useState(false);
 
     if (!isVisible) return null;
 
@@ -39,13 +40,30 @@ const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose }) => {
                                 </Switch>
                             </div>
                         </div>
-                        <div className="col-span-full">
+                        <div className="col-span-full border-b border-gray-900/10 pb-4">
                             <h2 className="text-lg font-semibold text-gray-900">Pipeline System</h2>
                             <div className="flex h-6 items-center justify-between">
                                 <p className="mt-1 text-sm text-gray-600">Show Pipeline Layer</p>
                                 <Switch
                                     checked={pipelineAgreed}
                                     onChange={setPipelineAgreed}
+                                    className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
+                                >
+                                    <span className="sr-only">Agree to policies</span>
+                                    <span
+                                        aria-hidden="true"
+                                        className="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
+                                    />
+                                </Switch>
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <h2 className="text-lg font-semibold text-gray-900">3D Tile</h2>
+                            <div className="flex h-6 items-center justify-between">
+                                <p className="mt-1 text-sm text-gray-600">Show 3D Tiles</p>
+                                <Switch
+                                    checked={threeDTileAgreed}
+                                    onChange={setThreeDTileAgreed}
                                     className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
                                 >
                                     <span className="sr-only">Agree to policies</span>
