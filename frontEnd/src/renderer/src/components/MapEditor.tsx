@@ -38,8 +38,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
         maxZoom: maxZoom
       })
 
-      setMap(mapInstance)      
-      
+      setMap(mapInstance)
+
       return (): void => {
         mapInstance.remove()
       }
@@ -56,32 +56,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
     }
   }, [viewMode])
 
-  // // 使用 Tile3DLayer，无需导入 Tile3DLoader
-  // const tile3DLayer = new Tile3DLayer({
-  //   id: 'tile-3d-layer',
-  //   data: '@src/public/6-NW-4D/tileset.json', // 替换为你的 tileset.json URL
-  //   onTilesetLoad: (tileset) => {
-  //     console.log('Tileset loaded:', tileset)
-  //   },
-  //   pickable: true,
-  //   autoHighlight: true,
-  //   highlightColor: [60, 60, 60, 40]
-  // })
-
-  // return (
-  //   <DeckGL
-  //     initialViewState={{
-  //       longitude: initialLongitude,
-  //       latitude: initialLatitude,
-  //       zoom: initialZoom,
-  //       maxZoom: maxZoom
-  //     }}
-  //     controller={true}
-  //     layers={[tile3DLayer]}
-  //   >
-  //     <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
-  //   </DeckGL>
-  // )
+  return <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
 }
 
 export default MapComponent
