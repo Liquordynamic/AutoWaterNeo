@@ -19,6 +19,7 @@ interface NavigationProps {
   onDataTableToggle: () => void;
   onDataUploadToggle: () => void;
   onModelRunAlertToggle: () => void;
+  onLayerPageToggle: () => void;
 }
 
 export function NavMenu({
@@ -27,7 +28,8 @@ export function NavMenu({
   onModeChange,
   onDataTableToggle,
   onDataUploadToggle,
-  onModelRunAlertToggle
+  onModelRunAlertToggle,
+  onLayerPageToggle,
 }: NavigationProps): ReactElement {
   return (
     <Menubar className="top-0 w-full max-h-12 text-xl z-10">
@@ -127,9 +129,12 @@ export function NavMenu({
           <MenubarItem onClick={onDataTableToggle}>
             Data Table <MenubarShortcut>CRTL+T</MenubarShortcut>
           </MenubarItem>
-          <MenubarSeparator />
           <MenubarItem onClick={onDataUploadToggle}>
             Data Upload <MenubarShortcut>CRTL+U</MenubarShortcut>
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem onClick={onLayerPageToggle}>
+            Layer Page <MenubarShortcut>CRTL+L</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

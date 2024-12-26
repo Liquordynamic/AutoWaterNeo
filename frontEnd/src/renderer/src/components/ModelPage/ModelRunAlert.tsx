@@ -4,15 +4,16 @@ import SectionHeading from '../ui/SectionHeading';
 type ModelRunAlertProps = {
   isVisible: boolean;
   onClose: () => void;
+  steps: number;
 };
 
-const ModelRunAlert: React.FC<ModelRunAlertProps> = ({ isVisible, onClose }) => {
-  const [steps, setSteps] = useState(0);
+const ModelRunAlert: React.FC<ModelRunAlertProps> = ({ isVisible, onClose, steps }) => {
+  const [localSteps, setLocalSteps] = useState(0);
 
   useEffect(() => {
     if (isVisible) {
       const interval = setInterval(() => {
-        setSteps(prevSteps => prevSteps + 50);
+        setLocalSteps(prevSteps => prevSteps + 50);
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -37,7 +38,7 @@ const ModelRunAlert: React.FC<ModelRunAlertProps> = ({ isVisible, onClose }) => 
               className="text-sm font-semibold text-white px-3"
               onClick={onClose}
             >
-              Cancel
+              Stop
             </button>
           </div>
         </form>

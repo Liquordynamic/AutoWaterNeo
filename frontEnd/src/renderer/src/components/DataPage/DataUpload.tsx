@@ -293,7 +293,7 @@ const DataUpload: React.FC<DataUploadProps> = ({ isVisible, onClose }) => {
                                 </div>
                             </div>
                         </div>
-                    <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <div className="mt-6 flex items-center justify-end gap-x-6 bg-white py-2">
                         <button
                             type="button"
                             className="text-sm font-semibold text-gray-900"

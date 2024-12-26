@@ -10,6 +10,7 @@ body {
   overflow: hidden;
   background-image: url('./wavy-lines.svg');
   background-size: cover;
+  -webkit-user-select: none; /* Safari 兼容 */
   user-select: none;
   width: 100vw;
   height: 100vh;
@@ -82,16 +83,16 @@ code {
 
 .react {
   background: -webkit-linear-gradient(315deg, #087ea4 55%, #7c93ee);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
 }
 
 .ts {
   background: -webkit-linear-gradient(315deg, #3178c6 45%, #f0dc4e);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
 }
@@ -143,6 +144,7 @@ code {
   align-items: center;
   border-radius: 22px;
   background-color: #202127;
+  -webkit-backdrop-filter: blur(24px); /* Safari 兼容 */
   backdrop-filter: blur(24px);
 }
 
