@@ -2,6 +2,28 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/logo.png?asset'
+import express from 'express'
+import cors from 'cors'
+import { testController } from './controller/testController'
+
+const server = express()
+const port = 3000
+const staticDir = 'D:/data/autowater'
+// const staticDir = 'E:/香港瓦片'
+
+server.use(cors())
+server.use(express.static(staticDir))
+// parse application/x-www-form-urlencoded
+server.use(express.urlencoded({ extended: false }))
+// parse application/json
+server.use(express.json())
+
+// Controller
+server.use('/api/test', testController)
+
+server.listen(port, () => {
+  console.log('Express server is running on http://localhost:3000')
+})
 
 function createWindow(): void {
   // Create the browser window.

@@ -1,13 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react'
-import mapboxgl from 'mapbox-gl'
+import React, { useEffect } from 'react'
+import mapboxgl, { IControl } from 'mapbox-gl'
 import DemLayer from '@renderer/demLayer'
 import DeckGL from '@deck.gl/react'
 import NHMap from '@renderer/common/NHMap'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { MapboxOverlay } from "@deck.gl/mapbox";
+import { MapboxOverlay } from '@deck.gl/mapbox'
 import { Tile3DLayer } from '@deck.gl/geo-layers'
-import { Tiles3DLoader } from "@loaders.gl/3d-tiles";
-import { userInfo } from 'os'
+import { Tiles3DLoader } from '@loaders.gl/3d-tiles'
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -15,7 +14,7 @@ interface MapComponentProps {
   initialZoom?: number
   maxZoom?: number
   viewMode?: string
-  showThreeDTile: boolean
+  showThreeDTile?: boolean
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -43,45 +42,20 @@ const MapComponent: React.FC<MapComponentProps> = ({
         maxZoom: maxZoom
       })
 
-      //瓦片分块
-      const title1 = new Tile3DLayer({
-        id: '3d-tile-1',
-        data: '/3DTiles/6-NW-4D/tileset.json',
+      const title3DLayer = new Tile3DLayer({
+        id: '3d-tiles',
+        data: 'http://localhost:3000/6-NW-4D/tileset.json',
         loader: Tiles3DLoader,
         loadOptions: {
-          "3d-tiles": {
+          '3d-tiles': {
             loadGLTF: true,
             decodeQuantizedPositions: false,
-            isTileset: "auto",
-            assetGltfUpAxis: null,
-          },
+            isTileset: 'auto',
+            assetGltfUpAxis: null
+          }
         },
-      })
-      const title2 = new Tile3DLayer({
-        id: '3d-tile-2',
-        data: '/3DTiles/6-NW-5D/tileset.json',
-        loader: Tiles3DLoader,
-        loadOptions: {
-          "3d-tiles": {
-            loadGLTF: true,
-            decodeQuantizedPositions: false,
-            isTileset: "auto",
-            assetGltfUpAxis: null,
-          },
-        },
-      })
-      const title3 = new Tile3DLayer({
-        id: '3d-tile-3',
-        data: '/3DTiles/6-NW-10D/tileset.json',
-        loader: Tiles3DLoader,
-        loadOptions: {
-          "3d-tiles": {
-            loadGLTF: true,
-            decodeQuantizedPositions: false,
-            isTileset: "auto",
-            assetGltfUpAxis: null,
-          },
-        },
+
+        onTilesetLoad: (tileset): void => console.log(tileset)
       })
 
       const deckOverlay = new MapboxOverlay({ layers: [title1, title2, title3] });
@@ -109,8 +83,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
     }
   }, [viewMode])
 
-  return (
-    <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
-  )
+  return <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
 }
 export default MapComponent

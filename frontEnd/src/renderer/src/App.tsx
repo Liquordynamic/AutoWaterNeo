@@ -6,6 +6,7 @@ import ModelRunAlert from './components/ModelPage/ModelRunAlert'
 import { NavMenu } from './components/layout/NavMenu'
 import { useState, useEffect } from 'react'
 import LayerPage from './components/LayerPage/LayerPage'
+import axios from 'axios'
 
 function App(): JSX.Element {
   const RADIO_ITEMS = ['Dark', 'Light']
@@ -65,16 +66,25 @@ function App(): JSX.Element {
   }
 
   const handleTestAPIClick = async (): Promise<void> => {
-    const data = {
-      a: '123',
-      b: '456'
-    }
+    // const data = {
+    //   a: '123',
+    //   b: '456'
+    // }
+    // try {
+    //   // 使用异步调用等待主进程返回处理结果
+    //   const result = await window.api.sendJSONToMain(JSON.stringify(data))
+    //   console.log('Received processed result:', result)
+    // } catch (error) {
+    //   console.error('Error processing JSON:', error)
+    // }
     try {
-      // 使用异步调用等待主进程返回处理结果
-      const result = await window.api.sendJSONToMain(JSON.stringify(data))
-      console.log('Received processed result:', result)
+      // 发送 GET 请求到 API
+      const response = await axios.get('http://localhost:3000/api/test/run-python?name=NJUIT')
+
+      // 处理返回的数据，例如更新 UI
+      console.log('API Response:', response.data)
     } catch (error) {
-      console.error('Error processing JSON:', error)
+      console.error('Error fetching data:', error)
     }
   }
 
