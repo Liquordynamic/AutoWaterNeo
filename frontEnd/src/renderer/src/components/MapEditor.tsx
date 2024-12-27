@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
+import DemLayer from '@renderer/demLayer'
 import DeckGL from '@deck.gl/react'
 import NHMap from '@renderer/common/NHMap'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -23,10 +24,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
   initialZoom = 11,
   maxZoom = 22,
   viewMode = 'Dark',
-  showThreeDTile
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
-  const [deckOverlay, setDeckOverlay] = React.useState<MapboxOverlay | null>(null)
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -44,11 +43,11 @@ const MapComponent: React.FC<MapComponentProps> = ({
         maxZoom: maxZoom
       })
 
-      const title3DLayer = new Tile3DLayer({
-        id: '3d-tiles',
-        data: '/6-NW-4D/tileset.json', //替换实际数据源
+      //瓦片分块
+      const title1 = new Tile3DLayer({
+        id: '3d-tile-1',
+        data: '/3DTiles/6-NW-4D/tileset.json',
         loader: Tiles3DLoader,
-        pickable: true, //是否可以交互
         loadOptions: {
           "3d-tiles": {
             loadGLTF: true,
@@ -57,13 +56,40 @@ const MapComponent: React.FC<MapComponentProps> = ({
             assetGltfUpAxis: null,
           },
         },
-
-        onTilesetLoad: (tileset) => console.log(tileset),
+      })
+      const title2 = new Tile3DLayer({
+        id: '3d-tile-2',
+        data: '/3DTiles/6-NW-5D/tileset.json',
+        loader: Tiles3DLoader,
+        loadOptions: {
+          "3d-tiles": {
+            loadGLTF: true,
+            decodeQuantizedPositions: false,
+            isTileset: "auto",
+            assetGltfUpAxis: null,
+          },
+        },
+      })
+      const title3 = new Tile3DLayer({
+        id: '3d-tile-3',
+        data: '/3DTiles/6-NW-10D/tileset.json',
+        loader: Tiles3DLoader,
+        loadOptions: {
+          "3d-tiles": {
+            loadGLTF: true,
+            decodeQuantizedPositions: false,
+            isTileset: "auto",
+            assetGltfUpAxis: null,
+          },
+        },
       })
 
-      const deckOverlay = new MapboxOverlay({ layers: [title3DLayer] });
-      mapInstance.addControl(deckOverlay as any);
-      setDeckOverlay(deckOverlay)
+      const deckOverlay = new MapboxOverlay({ layers: [title1, title2, title3] });
+      mapInstance.addControl(deckOverlay as any); //加载3D瓦片
+
+      mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer) 
+
+
 
       setMap(mapInstance)
 

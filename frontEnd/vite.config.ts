@@ -1,9 +1,13 @@
 import path from 'path'
+import glsl from 'vite-plugin-glsl'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    glsl(),
+  ],
   resolve: {
     alias: {
       '@renderer': path.resolve(__dirname, './src/renderer/src'),
@@ -12,7 +16,7 @@ export default defineConfig({
   },
   server: {
     // port:
-    host:'0.0.0.0',
+    host: '0.0.0.0',
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:3000', // 后端服务器地址
