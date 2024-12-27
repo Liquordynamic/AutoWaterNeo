@@ -107,7 +107,7 @@ export function NavMenu({
           <MenubarSeparator />
           <MenubarItem>
             Toggle Fullscreen <MenubarShortcut>F12</MenubarShortcut>
-            </MenubarItem>
+          </MenubarItem>
           <MenubarSeparator />
           {/* <MenubarItem inset>Hide Sidebar</MenubarItem> */}
           <MenubarItem>

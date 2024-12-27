@@ -44,7 +44,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
       const title3DLayer = new Tile3DLayer({
         id: '3d-tiles',
-        data: '/6-NW-4D/tileset.json', //替换实际数据源
+        data: 'http://localhost:3000/6-NW-4D/tileset.json',
         loader: Tiles3DLoader,
         pickable: true, //是否可以交互
         loadOptions: {
