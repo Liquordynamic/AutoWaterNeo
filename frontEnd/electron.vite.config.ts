@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()]
   },
   preload: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin()]
   },
   renderer: {
     resolve: {
@@ -20,5 +20,4 @@ export default defineConfig({
       host: '0.0.0.0'
     }
   }
-
 })
