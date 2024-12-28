@@ -29,7 +29,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   }
 }
 

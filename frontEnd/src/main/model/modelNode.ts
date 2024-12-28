@@ -1,21 +1,20 @@
 import 'reflect-metadata'
 import { v4 as uuidv4 } from 'uuid'
-import 'reflect-metadata'
-// import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
-// @Entity()
+@Entity()
 export class modelNode {
-  // @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   private _id: string
-  // @Column()
+  @Column({ type: 'varchar', length: 255 })
   private _name: string
-  // @Column('simple-array')
+  @Column({ type: 'simple-array' })
   private _param_key: string[]
-  // @Column()
+  @Column({ type: 'varchar', length: 255 })
   private _program: string
-  // @Column()
+  @Column({ type: 'varchar', length: 255 })
   private _exe_prefix: string
-  // @Column()
+  @Column({ type: 'varchar', length: 255 })
   private _conda_env: string
 
   private generateUUID = (): string => {

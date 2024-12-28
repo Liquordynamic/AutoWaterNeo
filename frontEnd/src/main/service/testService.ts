@@ -1,13 +1,10 @@
-/*
- * @Author: Stevnda 1849698643@qq.com
- * @Date: 2024-12-27 21:15:47
- * @LastEditors: Stevnda 1849698643@qq.com
- * @LastEditTime: 2024-12-27 23:44:37
- * @FilePath: \frontEnd\src\main\service\testService.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
+import 'reflect-metadata'
 import { ResponseCode, Res } from '../types'
-import { spawn } from 'child_process'
+// import { spawn } from 'child_process'
+import { processUtil } from '../util/processUtil'
+import { modelNode } from '../model/modelNode'
+import { taskNode } from '../model/taskNode'
+import { repositoryUtil } from '../util/repositoryUtil'
 
 const testData = (): Res => {
   return { code: ResponseCode.SUCCESS, message: 'Hello from Express!', success: true }
@@ -39,33 +36,49 @@ const testData = (): Res => {
 const testRunPy = async (pyPath: string, name: string): Promise<Res> => {
   try {
     // 执行命令并等待结果
-    const child = spawn(`python ${pyPath} ${name}`)
+    // const child = spawn('python', [pyPath, name])
 
-    // 捕获标准输出数据
-    child.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`)
-    })
+    // let stdoutData = ''
+    // let stderrData = ''
 
-    // 捕获标准错误数据
-    child.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`)
-    })
+    // // 捕获标准输出数据
+    // child.stdout.on('data', (data) => {
+    //   stdoutData += data.toString()
+    //   console.log(`stdout: ${data}`)
+    // })
 
-    // 监听子进程退出
-    child.on('close', (code) => {
-      console.log(`子进程退出，退出码: ${code}`)
-    })
+    // // 捕获标准错误数据
+    // child.stderr.on('data', (data) => {
+    //   stderrData += data.toString()
+    //   console.error(`stderr: ${data}`)
+    // })
+
+    // // 监听子进程退出
+    // child.on('close', (code) => {
+    //   console.log(`子进程退出，退出码: ${code}`)
+    //   console.log(stdoutData)
+    //   console.log(stderrData)
+    // })
+    const model_node: modelNode | null = await repositoryUtil
+      .getRepository('modelNode')
+      .findOne({ where: { name: 'test' } })
+    if (model_node) {
+      const node = new taskNode(model_node.id, 'created', {})
+      processUtil.build(node)
+    } else {
+      throw new Error('modelNode not found')
+    }
 
     return {
       code: ResponseCode.SUCCESS,
-      message: 'test',
+      message: '子进程已启动',
       success: true
     }
   } catch (error) {
     console.error(`exec error: ${error}`)
     return {
       code: ResponseCode.ERROR,
-      message: 'Server Error',
+      message: '启动子进程失败',
       success: false
     }
   }

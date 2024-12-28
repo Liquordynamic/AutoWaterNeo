@@ -10,8 +10,8 @@ import { AppDataSource } from './data-source'
 
 const server = express()
 const port = 3000
-const staticDir = 'E:/HKData'
-// const staticDir = 'E:/香港瓦片'
+// const staticDir = 'E:/HKData'
+const staticDir = 'E:/香港瓦片'
 
 server.use(cors())
 server.use(express.static(staticDir))
@@ -86,6 +86,7 @@ app.whenReady().then(async () => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
   await AppDataSource.initialize()
   console.log('Data Source has been initialized!')
 

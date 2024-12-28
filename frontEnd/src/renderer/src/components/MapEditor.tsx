@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { MapboxOverlay } from '@deck.gl/mapbox'
 import { Tile3DLayer } from '@deck.gl/geo-layers'
 import { Tiles3DLoader } from '@loaders.gl/3d-tiles'
+import { IControl } from 'mapbox-gl'
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -21,30 +22,31 @@ const MapComponent: React.FC<MapComponentProps> = ({
   initialLatitude = 22.446937,
   initialZoom = 11,
   maxZoom = 22,
-  viewMode = 'Dark',
+  viewMode = 'Dark'
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
 
   // 3D瓦片的配置数据
   const tileLayerData = [
-    '6-NW-4D', '6-NW-5D', '6-NW-10D', '6-NW-4C', '6-NW-5C', '6-NW-9B',
-    '6-NW-9C', '6-NW-9D', '6-NW-10A', '6-NW-10B', '6-NW-10C',
-  ];
+    '6-NW-4D'
+    // , '6-NW-5D', '6-NW-10D', '6-NW-4C', '6-NW-5C', '6-NW-9B',
+    // '6-NW-9C', '6-NW-9D', '6-NW-10A', '6-NW-10B', '6-NW-10C',
+  ]
 
   // 创建Tile3DLayer的通用函数
   const createTileLayer = useCallback((id: string) => {
     return new Tile3DLayer({
       id,
-      data: `http://localhost:3000/3DTiles/${id}/tileset.json`,
+      data: `http://localhost:3000/${id}/tileset.json`,
       loader: Tiles3DLoader,
       loadOptions: {
         loadGLTF: true,
         decodeQuantizedPositions: false,
         isTileset: 'auto',
-        assetGltfUpAxis: null,
-      },
-    });
-  }, []);
+        assetGltfUpAxis: null
+      }
+    })
+  }, [])
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -210,17 +212,16 @@ const MapComponent: React.FC<MapComponentProps> = ({
       // mapInstance.addControl(deckOverlay as any); //加载3D瓦片
 
       // 动态创建所有Tile3DLayer
-      const tileLayers = tileLayerData.map(createTileLayer);
-      const deckOverlay = new MapboxOverlay({ layers: tileLayers });
-
+      const tileLayers = tileLayerData.map(createTileLayer)
+      const deckOverlay = new MapboxOverlay({ layers: tileLayers })
 
       mapInstance.on('styledata', () => {
         // 添加DeckGL Overlay
-        mapInstance.addControl(deckOverlay as any);
+        mapInstance.addControl(deckOverlay as IControl)
         // Add DEM Layer
-        mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer);
-        setMap(mapInstance);
-      });
+        mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer)
+        setMap(mapInstance)
+      })
 
       return (): void => {
         mapInstance.remove()
