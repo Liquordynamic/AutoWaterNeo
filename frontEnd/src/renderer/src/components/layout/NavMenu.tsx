@@ -20,6 +20,7 @@ interface NavigationProps {
   onModelRunAlertToggle: () => void
   onLayerPageToggle: () => void
   handleTestAPIClick: () => void
+  handleTestAPIClick2: () => void
 }
 
 export function NavMenu({
@@ -30,7 +31,8 @@ export function NavMenu({
   onDataUploadToggle,
   onModelRunAlertToggle,
   onLayerPageToggle,
-  handleTestAPIClick
+  handleTestAPIClick,
+  handleTestAPIClick2
 }: NavigationProps): ReactElement {
   return (
     <Menubar className="top-0 w-full max-h-12 text-xl z-10">
@@ -165,6 +167,9 @@ export function NavMenu({
         <MenubarContent>
           <MenubarItem onClick={handleTestAPIClick}>
             Test API <MenubarShortcut>CRTL+T</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem onClick={handleTestAPIClick2}>
+            Test API2 <MenubarShortcut>CRTL+T</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

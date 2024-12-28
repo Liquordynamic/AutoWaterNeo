@@ -10,7 +10,7 @@
         "./src/renderer/src/*"
       ]
     },
-    
+
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
