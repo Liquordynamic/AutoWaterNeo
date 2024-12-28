@@ -88,6 +88,11 @@ function App(): JSX.Element {
     }
   }
 
+  const handleTestAPIClick2 = async (): Promise<void> => {
+    const response = await axios.get('http://localhost:3000/api/test/data')
+    console.log('API2 Response:', response.data)
+  }
+
   return (
     <HashRouter>
       <NavMenu
@@ -99,6 +104,7 @@ function App(): JSX.Element {
         onModelRunAlertToggle={toggleModelRunAlert}
         onLayerPageToggle={toggleLayerPage}
         handleTestAPIClick={handleTestAPIClick}
+        handleTestAPIClick2={handleTestAPIClick2}
       />
       <div className="flex h-full mx-auto relative">
         {showDataTable && <DataTable isVisible={true} onClose={closeDataTable} />}

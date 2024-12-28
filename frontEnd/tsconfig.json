@@ -9,6 +9,11 @@
       "@renderer/*": [
         "./src/renderer/src/*"
       ]
-    }
+    },
+    "strict": true,
+    "target": "ES6",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictFunctionTypes": false
   }
 }
