@@ -58,7 +58,7 @@ const testRunPy = async (pyPath: string, name: string): Promise<Res> => {
 
     return {
       code: ResponseCode.SUCCESS,
-      message: stdout.trim(), // 去除多余的换行符
+      message: 'test',
       success: true
     }
   } catch (error) {
