@@ -1,3 +1,4 @@
+// DataTable.tsx
 import React, { useState } from 'react';
 import SectionHeading from '../ui/SectionHeading';
 import { Switch } from '@headlessui/react'
@@ -5,18 +6,19 @@ import { Switch } from '@headlessui/react'
 type DataTableProps = {
     isVisible: boolean;
     onClose: () => void;
+    threeDTileAgreed: boolean; // 添加状态
+    setThreeDTileAgreed: (value: boolean) => void; // 添加回调函数
 };
 
-const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose }) => {
+const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgreed, setThreeDTileAgreed }) => {
 
     const [demAgreed, setDemAgreed] = useState(false);
     const [pipelineAgreed, setPipelineAgreed] = useState(false);
-    const [threeDTileAgreed, setThreeDTileAgreed] = useState(false);
 
     if (!isVisible) return null;
 
     return (
-        <div className='bg-white p-1 rounded-lg shadow-md absolute top-5 left-5 w-1/6 z-10 '>
+        <div className='bg-white p-1 rounded-lg shadow-md absolute top-5 left-5 w-1/5 z-10 hidden sm:block'>
             <div className='bg-white p-4 w-full h-full overflow-auto'>
                 <form>
                     <div className='bg-cyan-100 rounded-lg p-1'>
