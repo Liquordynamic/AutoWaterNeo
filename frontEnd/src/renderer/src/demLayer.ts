@@ -1,7 +1,7 @@
 import mapboxgl, { MercatorCoordinate } from "mapbox-gl"
 import { Shader } from "./webGL/Shader"
 import { VertexArray } from "./webGL/Buffer"
-import demLayerCode from './shader/demLayer.glsl'
+import demLayerCode from './shader/demLayer.glsl?raw'
 import { Texture } from "./webGL/Texture"
 import { loadImage } from "./glUtils"
 
@@ -25,7 +25,7 @@ export default class DemLayer {
     count: number
 
     constructor() {
-        this.id = 'terrainLayer'
+        this.id = 'floodLayer'
         this.type = 'custom'
         this.renderingMode = '3d'
 
@@ -50,7 +50,6 @@ export default class DemLayer {
         ]), null)
         this.demVAO.setAttribute(0, 3, gl.FLOAT, 5 * 4, 0)
         this.demVAO.setAttribute(1, 2, gl.FLOAT, 5 * 4, 3 * 4)
-
         this.demLayerProgram = new Shader(gl, demLayerCode)
 
         for (let i = 0; i < 60; i += 1) {

@@ -8,7 +8,7 @@ import { testController } from './controller/testController'
 
 const server = express()
 const port = 3000
-const staticDir = 'D:/data/autowater'
+const staticDir = 'E:/HKData'
 // const staticDir = 'E:/香港瓦片'
 
 server.use(cors())
