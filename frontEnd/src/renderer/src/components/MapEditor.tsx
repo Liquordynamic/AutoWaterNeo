@@ -6,7 +6,6 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { MapboxOverlay } from '@deck.gl/mapbox'
 import { Tile3DLayer } from '@deck.gl/geo-layers'
 import { Tiles3DLoader } from '@loaders.gl/3d-tiles'
-import { IControl } from 'mapbox-gl'
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -212,12 +211,13 @@ const MapComponent: React.FC<MapComponentProps> = ({
       // mapInstance.addControl(deckOverlay as any); //加载3D瓦片
 
       // 动态创建所有Tile3DLayer
-      const tileLayers = tileLayerData.map(createTileLayer)
-      const deckOverlay = new MapboxOverlay({ layers: tileLayers })
 
-      mapInstance.on('styledata', () => {
+      mapInstance.on('load', () => {
         // 添加DeckGL Overlay
-        mapInstance.addControl(deckOverlay as IControl)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const tileLayers = tileLayerData.map(createTileLayer)
+        const deckOverlay = new MapboxOverlay({ interleaved: true, layers: tileLayers })
+        mapInstance.addControl(deckOverlay as any)
         // Add DEM Layer
         mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer)
         setMap(mapInstance)

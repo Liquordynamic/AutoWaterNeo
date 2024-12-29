@@ -7,10 +7,12 @@ import { taskNode } from '../model/taskNode'
 const EntityMap = {
   modelNode: modelNode,
   taskNode: taskNode
-}
+} as const
 
 export class repositoryUtil {
-  public static getRepository(node: string): Repository<modelNode> {
-    return AppDataSource.getRepository(EntityMap[node])
+  public static getRepository<T extends keyof typeof EntityMap>(
+    node: T
+  ): Repository<InstanceType<(typeof EntityMap)[T]>> {
+    return AppDataSource.getRepository<InstanceType<(typeof EntityMap)[T]>>(EntityMap[node])
   }
 }

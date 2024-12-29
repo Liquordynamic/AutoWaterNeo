@@ -1,5 +1,7 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
+import { modelNode } from './model/modelNode'
+import { taskNode } from './model/taskNode'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -10,5 +12,5 @@ export const AppDataSource = new DataSource({
   database: 'autowater', // 数据库名称
   synchronize: true, // 是否自动同步数据库表结构，生产环境建议关闭
   logging: true, // 是否启用日志
-  entities: [__dirname + '/model/*.ts'] // 实体路径
+  entities: [modelNode, taskNode] // 实体路径
 })
