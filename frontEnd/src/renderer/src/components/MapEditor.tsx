@@ -15,7 +15,9 @@ interface MapComponentProps {
   viewMode?: string
   showThreeDTile?: boolean
   threeDTileAgreed?: boolean; 
+  floodingResultAgreed?: boolean; 
   setThreeDTileAgreed?: (value: boolean) => void; 
+  setfloodingResultAgreed?: (value: boolean) => void; 
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -25,6 +27,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   maxZoom = 22,
   viewMode = 'Dark',
   threeDTileAgreed = false, 
+  floodingResultAgreed = false, 
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
   const [tileLayers, setTileLayers] = useState<Tile3DLayer[]>([]);
@@ -32,16 +35,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   // 3D瓦片的配置数据
   const tileLayerData = [
-    '6-NW-4D',
-    // '6-NW-5D', '6-NW-10D', '6-NW-4C', '6-NW-5C', '6-NW-9B',
-    // '6-NW-9C', '6-NW-9D', '6-NW-10A', '6-NW-10B', '6-NW-10C',
+    // '6-NW-4C', '6-NW-4D', 
+    '6-NW-5C', '6-NW-5D', 
+    // '6-NW-9B', '6-NW-9C', '6-NW-9D',
+    // '6-NW-10A', '6-NW-10B', '6-NW-10C','6-NW-10D', 
   ];
 
   // 创建Tile3DLayer的通用函数
   const createTileLayer = useCallback((id: string) => {
     return new Tile3DLayer({
       id,
-      data: `http://localhost:3000/${id}/tileset.json`,
+      data: `http://localhost:3000/${id}/tileset.json`,  //更改加载方式
       loader: Tiles3DLoader,
       loadOptions: {
         loadGLTF: true,
@@ -113,6 +117,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
         setTileLayers([]);
       }
     }
+    // if ()
   }, [threeDTileAgreed, createTileLayer, map, tileLayers, deckOverlay]);
 
   return <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />

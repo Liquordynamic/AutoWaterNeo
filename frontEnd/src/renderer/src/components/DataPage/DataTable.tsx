@@ -5,19 +5,24 @@ import { Switch } from '@headlessui/react'
 type DataTableProps = {
     isVisible: boolean;
     onClose: () => void;
-    threeDTileAgreed: boolean; // 添加状态
-    setThreeDTileAgreed: (value: boolean) => void; // 添加回调函数
+    threeDTileAgreed: boolean; 
+    floodingResultAgreed: boolean;
+    setThreeDTileAgreed: (value: boolean) => void; 
+    setFloodingResultAgreed: (value: boolean) => void; 
 };
 
-const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgreed, setThreeDTileAgreed }) => {
+const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgreed, floodingResultAgreed, setThreeDTileAgreed, setFloodingResultAgreed }) => {
 
     const [demAgreed, setDemAgreed] = useState(false);
     const [pipelineAgreed, setPipelineAgreed] = useState(false);
 
     const handleThreeDTileAgreedChange = (checked: boolean) => {    
         setThreeDTileAgreed(checked);
-        // console.log('切换');
         console.log(threeDTileAgreed);
+    };
+    const handleFloodingResultAgreedChange = (checked: boolean) => {    
+        setFloodingResultAgreed(checked);
+        console.log(floodingResultAgreed);
     };
 
     if (!isVisible) return null;
@@ -86,8 +91,8 @@ const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgr
                             <div className="flex h-6 items-center justify-between">
                                 <p className="mt-1 text-sm text-gray-600">Show Water Flooding</p>
                                 <Switch
-                                    // checked={pipelineAgreed}
-                                    // onChange={setPipelineAgreed}
+                                    checked={floodingResultAgreed}
+                                    onChange={handleFloodingResultAgreedChange}
                                     className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
                                 >
                                     <span className="sr-only">Agree to policies</span>

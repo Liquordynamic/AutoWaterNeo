@@ -4,7 +4,7 @@ import DataTable from './components/DataPage/DataTable'
 import DataUpload from './components/DataPage/DataUpload'
 import ModelRunAlert from './components/ModelPage/ModelRunAlert'
 import { NavMenu } from './components/layout/NavMenu'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import LayerPage from './components/LayerPage/LayerPage'
 import axios from 'axios'
 
@@ -16,8 +16,8 @@ function App(): JSX.Element {
   const [showModelRunAlert, setShowModelRunAlert] = useState(false)
   const [showLayerPage, setShowLayerPage] = useState(false)
   const [steps, setSteps] = useState(0)
-  const [isVisible, setIsVisible] = useState(false);
   const [threeDTileAgreed, setThreeDTileAgreed] = useState(false);
+  const [floodingResultAgreed, setfloodingResultAgreed] = useState(false);
 
   useEffect(() => {
     if (showModelRunAlert) {
@@ -109,7 +109,11 @@ function App(): JSX.Element {
         handleTestAPIClick2={handleTestAPIClick2}
       />
       <div className="flex h-full mx-auto relative">
-        {showDataTable && <DataTable isVisible={true} onClose={closeDataTable} threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed} />}
+        {showDataTable && <DataTable isVisible={true} 
+          onClose={closeDataTable} 
+          threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed} 
+          floodingResultAgreed={floodingResultAgreed} setFloodingResultAgreed={setfloodingResultAgreed} 
+        />}
         {showDataUpload && <DataUpload isVisible={true} onClose={closeDataUpload} />}
         {showModelRunAlert && (
           <ModelRunAlert isVisible={true} onClose={closeModelRunAlert} steps={steps} />
