@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import DemLayer from '@renderer/demLayer'
 import NHMap from '@renderer/common/NHMap'
@@ -14,6 +14,8 @@ interface MapComponentProps {
   maxZoom?: number
   viewMode?: string
   showThreeDTile?: boolean
+  threeDTileAgreed?: boolean; 
+  setThreeDTileAgreed?: (value: boolean) => void; 
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -21,24 +23,19 @@ const MapComponent: React.FC<MapComponentProps> = ({
   initialLatitude = 22.446937,
   initialZoom = 11,
   maxZoom = 22,
-  viewMode = 'Dark'
+  viewMode = 'Dark',
+  threeDTileAgreed = false, 
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
+  const [tileLayers, setTileLayers] = useState<Tile3DLayer[]>([]);
+  const [deckOverlay, setDeckOverlay] = useState<MapboxOverlay | null>(null);
 
   // 3D瓦片的配置数据
   const tileLayerData = [
     '6-NW-4D',
-    '6-NW-5D',
-    '6-NW-10D',
-    '6-NW-4C',
-    '6-NW-5C',
-    '6-NW-9B',
-    '6-NW-9C',
-    '6-NW-9D',
-    '6-NW-10A',
-    '6-NW-10B',
-    '6-NW-10C'
-  ]
+    // '6-NW-5D', '6-NW-10D', '6-NW-4C', '6-NW-5C', '6-NW-9B',
+    // '6-NW-9C', '6-NW-9D', '6-NW-10A', '6-NW-10B', '6-NW-10C',
+  ];
 
   // 创建Tile3DLayer的通用函数
   const createTileLayer = useCallback((id: string) => {
@@ -72,15 +69,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
       })
 
       mapInstance.on('load', () => {
+
         // 添加DeckGL Overlay
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const tileLayers = tileLayerData.map(createTileLayer)
-        const deckOverlay = new MapboxOverlay({ interleaved: true, layers: tileLayers })
-        mapInstance.addControl(deckOverlay as any)
+        // const tileLayers = tileLayerData.map(createTileLayer)
+        // const deckOverlay = new MapboxOverlay({ interleaved: true, layers: tileLayers })
+        // mapInstance.addControl(deckOverlay as any)
+        
         // Add DEM Layer
         mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer)
         setMap(mapInstance)
-      })
+      });
 
       return (): void => {
         mapInstance.remove()
@@ -97,6 +96,24 @@ const MapComponent: React.FC<MapComponentProps> = ({
       )
     }
   }, [viewMode, initialLongitude, initialLatitude, initialZoom, maxZoom])
+
+  useEffect(() => {
+    if (threeDTileAgreed && !tileLayers.length) {
+      const newTileLayers = tileLayerData.map(createTileLayer);
+      setTileLayers(newTileLayers);
+      if (map) {
+        const deckOverlay = new MapboxOverlay({ interleaved: true, layers: newTileLayers });
+        setDeckOverlay(deckOverlay);
+        map.addControl(deckOverlay as any);
+      }
+    } else if (!threeDTileAgreed && tileLayers.length) {
+      if (map && deckOverlay) {
+        map.removeControl(deckOverlay as any);
+        setDeckOverlay(null);
+        setTileLayers([]);
+      }
+    }
+  }, [threeDTileAgreed, createTileLayer, map, tileLayers, deckOverlay]);
 
   return <div id="map-container" className="relative top-0 w-screen h-full min-h-24 z-0 grow" />
 }
