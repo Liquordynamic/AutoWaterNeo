@@ -112,7 +112,7 @@ function App(): JSX.Element {
 
         <div className="flex-grow">
           <Routes>
-            <Route path="/" element={<MapComponent viewMode={radioSelection} threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed} />}></Route>
+            <Route path="/" element={<MapComponent viewMode={radioSelection} threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}/>}></Route>
           </Routes>
         </div>
       </div>

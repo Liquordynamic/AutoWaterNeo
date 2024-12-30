@@ -15,6 +15,12 @@ const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgr
     const [demAgreed, setDemAgreed] = useState(false);
     const [pipelineAgreed, setPipelineAgreed] = useState(false);
 
+    const handleThreeDTileAgreedChange = (checked: boolean) => {    
+        setThreeDTileAgreed(checked);
+        // console.log('切换');
+        console.log(threeDTileAgreed);
+    };
+
     if (!isVisible) return null;
 
     return (
@@ -65,7 +71,7 @@ const DataTable: React.FC<DataTableProps> = ({ isVisible, onClose, threeDTileAgr
                                 <p className="mt-1 text-sm text-gray-600">Show 3D Tiles</p>
                                 <Switch
                                     checked={threeDTileAgreed}
-                                    onChange={setThreeDTileAgreed}
+                                    onChange={handleThreeDTileAgreedChange}
                                     className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
                                 >
                                     <span className="sr-only">Agree to policies</span>

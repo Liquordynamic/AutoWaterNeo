@@ -78,7 +78,7 @@ export default class DemLayer {
         this.demLayerProgram.setUniform('uMatrix', matrix)
         this.demLayerProgram.setUniformTexture('uRampTexture', this.rampTexture, 2)
         this.demLayerProgram.setUniformTexture('uMaskTexture', this.maskTexture, 3)
-        console.log(this.count)
+        // console.log(this.count)
 
         if(this.count < (this.demTextures.length - 1) * this.deltaStep) {
             this.demLayerProgram.setUniformTexture('uWaterHeight0', this.demTextures[Math.trunc(this.count / this.deltaStep)], 0)
