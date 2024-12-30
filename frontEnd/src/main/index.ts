@@ -10,7 +10,8 @@ import { AppDataSource } from './data-source'
 
 const server = express()
 const port = 3000
-const staticDir = 'D:/2024-work/HKData'
+// const staticDir = 'D:/2024-work/HKData'
+const staticDir = 'E:/HKData/3DTiles'   //ljx数据地址
 // const staticDir = 'E:/香港瓦片'
 
 server.use(cors())
