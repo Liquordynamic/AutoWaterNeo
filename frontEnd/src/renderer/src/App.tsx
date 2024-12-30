@@ -81,7 +81,7 @@ function App(): JSX.Element {
     // }
     try {
       // 发送 GET 请求到 API
-      const response = await axios.get('http://localhost:3000/api/test/run-python?name=NJUIT')
+      const response = await axios.get('http://localhost:3000/api/test/run-python?name=NNU')
 
       // 处理返回的数据，例如更新 UI
       console.log('API Response:', response.data)

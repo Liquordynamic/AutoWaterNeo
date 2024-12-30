@@ -87,6 +87,7 @@ app.whenReady().then(async () => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
   await AppDataSource.initialize()
   console.log('Data Source has been initialized!')
 
