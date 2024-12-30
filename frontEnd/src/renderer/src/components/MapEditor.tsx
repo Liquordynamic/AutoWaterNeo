@@ -14,8 +14,8 @@ interface MapComponentProps {
   maxZoom?: number
   viewMode?: string
   showThreeDTile?: boolean
-  threeDTileAgreed?: boolean; // 添加状态
-  setThreeDTileAgreed?: (value: boolean) => void; // 添加回调函数
+  threeDTileAgreed?: boolean; 
+  setThreeDTileAgreed?: (value: boolean) => void; 
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -24,8 +24,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   initialZoom = 11,
   maxZoom = 22,
   viewMode = 'Dark',
-  threeDTileAgreed = false, // 默认值
-  setThreeDTileAgreed, // 默认值
+  threeDTileAgreed = false, 
 }) => {
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
   const [tileLayers, setTileLayers] = useState<Tile3DLayer[]>([]);
@@ -42,7 +41,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   const createTileLayer = useCallback((id: string) => {
     return new Tile3DLayer({
       id,
-      data: `http://localhost:3000/3DTiles/${id}/tileset.json`,
+      data: `http://localhost:3000/${id}/tileset.json`,
       loader: Tiles3DLoader,
       loadOptions: {
         loadGLTF: true,
@@ -70,11 +69,13 @@ const MapComponent: React.FC<MapComponentProps> = ({
       })
 
       mapInstance.on('load', () => {
+
         // 添加DeckGL Overlay
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // const tileLayers = tileLayerData.map(createTileLayer)
         // const deckOverlay = new MapboxOverlay({ interleaved: true, layers: tileLayers })
         // mapInstance.addControl(deckOverlay as any)
+        
         // Add DEM Layer
         mapInstance.addLayer(new DemLayer() as mapboxgl.AnyLayer)
         setMap(mapInstance)
@@ -101,7 +102,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       const newTileLayers = tileLayerData.map(createTileLayer);
       setTileLayers(newTileLayers);
       if (map) {
-        const deckOverlay = new MapboxOverlay({ layers: newTileLayers });
+        const deckOverlay = new MapboxOverlay({ interleaved: true, layers: newTileLayers });
         setDeckOverlay(deckOverlay);
         map.addControl(deckOverlay as any);
       }
