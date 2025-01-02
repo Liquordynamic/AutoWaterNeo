@@ -11,6 +11,6 @@ export const AppDataSource = new DataSource({
   password: import.meta.env.MAIN_VITE_PASSWORD, // 数据库密码
   database: import.meta.env.MAIN_VITE_DBNAME, // 数据库名称
   synchronize: true, // 是否自动同步数据库表结构，生产环境建议关闭
-  logging: true, // 是否启用日志
+  logging: false, // 是否启用日志
   entities: [modelNode, taskNode] // 实体路径
 })
