@@ -20,7 +20,7 @@ export class testService {
       })
       if (model_node) {
         const node = new taskNode(model_node.id, 'created', { name: name })
-        const task_node_id = await processUtil.build(node)
+        const task_node_id = await processUtil.buildScriptProcess(node)
         return Res.success(task_node_id)
       } else {
         console.log('modelNode not found')

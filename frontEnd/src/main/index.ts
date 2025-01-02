@@ -7,6 +7,7 @@ import express from 'express'
 import cors from 'cors'
 import { testController } from './controller/testController'
 import { AppDataSource } from './data-source'
+import { modelController } from './controller/modelController'
 
 const server = express()
 const port = 3000
@@ -22,6 +23,7 @@ server.use(express.json())
 
 // Controller
 server.use('/api/test', testController)
+server.use('/api/model', modelController)
 
 server.listen(port, () => {
   console.log('Express server is running on http://localhost:3000')
