@@ -23,42 +23,6 @@ const LayerPage: React.FC<LayerPageProps> = ({ isVisible, onClose, steps }) => {
                         <SectionHeading title='Layer Table' subTitle='' />
                     </div>
                     <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 pb-2">
-                        <div className="col-span-full border-b border-gray-900/10 pb-4">
-                            <h2 className="text-lg font-semibold text-gray-900">DEM</h2>
-                            <div className="flex h-6 items-center">
-                                <p className="mt-1 text-sm text-gray-600">Show DEM</p>
-                                <Switch
-                                    checked={demAgreed}
-                                    onChange={setDemAgreed}
-                                    className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
-                                >
-                                    <span className="sr-only">Agree to policies</span>
-                                    <span
-                                        aria-hidden="true"
-                                        className="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
-                                    />
-                                </Switch>
-                            </div>
-                        </div>
-                        <div className="col-span-full border-b border-gray-900/10 pb-4">
-                            <h2 className="text-lg font-semibold text-gray-900">Pipeline System</h2>
-                            <div className="flex h-6 items-center justify-between">
-                                <p className="mt-1 text-sm text-gray-600">Show Pipeline Layer</p>
-                                <Switch
-                                    checked={pipelineAgreed}
-                                    onChange={setPipelineAgreed}
-                                    className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 data-[checked]:bg-indigo-600 ml-auto"
-                                >
-                                    <span className="sr-only">Agree to policies</span>
-                                    <span
-                                        aria-hidden="true"
-                                        className="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
-                                    />
-                                </Switch>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 pb-2">
                         <div className="col-span-full pb-4">
                             <h2 className="text-lg font-semibold text-gray-900">Layers</h2>
                             <div className="flex h-6 items-center">

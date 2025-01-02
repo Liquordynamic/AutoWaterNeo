@@ -133,11 +133,11 @@ export default class DemLayer {
     this.count += 1
     this.currentTime += 1.0 / this.deltaStep
 
-    this.demLayerProgram.use()
-    this.demLayerProgram.setUniform('uMatrix', matrix)
-    this.demLayerProgram.setUniformTexture('uRampTexture', this.rampTexture, 2)
-    this.demLayerProgram.setUniformTexture('uMaskTexture', this.maskTexture, 3)
-    console.log(this.count)
+        this.demLayerProgram.use()
+        this.demLayerProgram.setUniform('uMatrix', matrix)
+        this.demLayerProgram.setUniformTexture('uRampTexture', this.rampTexture, 2)
+        this.demLayerProgram.setUniformTexture('uMaskTexture', this.maskTexture, 3)
+        // console.log(this.count)
 
     if (this.count < (this.demTextures.length - 1) * this.deltaStep) {
       this.demLayerProgram.setUniformTexture(
