@@ -5,8 +5,10 @@ import { modelService } from '../service/modelService'
 import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
+import { modelNode } from '../model/modelNode'
+
 export const modelController = express.Router()
-const model_service = new modelService()
+const model_service = new modelService(modelNode)
 const storage = multer.diskStorage({
   destination: 'uploads/',
   filename: function (_req, file, cb) {
@@ -33,7 +35,7 @@ modelController.post('/register', upload.single('file'), async (req: Request, re
 
 // api/model/list
 modelController.get('/list', async (_req: Request, res: Response) => {
-  const result = await model_service.list()
+  const result = await model_service.getNodeList()
   res.status(result.code).json(result)
 })
 
@@ -45,7 +47,7 @@ modelController.delete('/delete/:id', async (req: Request, res: Response) => {
 
 // api/model/update/:id
 modelController.put('/update/:id', async (req: Request, res: Response) => {
-  const result = await model_service.update(req.params.id, req.body)
+  const result = await model_service.updateNode(req.params.id, req.body)
   res.status(result.code).json(result)
 })
 

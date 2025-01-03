@@ -1,20 +1,15 @@
 import 'reflect-metadata'
-import { v4 as uuidv4 } from 'uuid'
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, Column, Tree, TreeParent, TreeChildren } from 'typeorm'
+import { baseNode } from './base/baseNode'
 
 @Entity('model_node')
-export class modelNode {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
-  @Column({ type: 'varchar', length: 255, nullable: false, default: 'test' })
-  name: string
-
-  @Column({ type: 'varchar', length: 32, nullable: false })
-  type: 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue'
+@Tree('materialized-path')
+export class modelNode extends baseNode {
+  @Column({ type: 'varchar', length: 32, nullable: false, default: 'script' })
+  type: 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue' = 'script'
 
   @Column({ type: 'simple-array', nullable: true, default: [] })
-  param_key: string[]
+  param_key: string[] = []
 
   @Column({ type: 'json', nullable: true })
   param_config: {
@@ -23,7 +18,7 @@ export class modelNode {
     prefix?: string
     required?: boolean
     description?: string
-  }[]
+  }[] = []
 
   @Column({ type: 'json', nullable: true })
   model_config: {
@@ -54,24 +49,21 @@ export class modelNode {
     broker?: string
     exchange?: string // 用于 RabbitMQ 等
     topic?: string // 用于 Kafka 等
-  }
+  } = {}
 
-  private generateUUID = (): string => {
-    return uuidv4()
-  }
+  @TreeParent()
+  parent!: modelNode | null
 
-  constructor(
-    name: string,
-    type: 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue',
-    param_key: string[],
-    param_config: modelNode['param_config'],
-    model_config: modelNode['model_config']
-  ) {
-    this.id = this.generateUUID()
-    this.name = name
-    this.param_key = param_key ? (Array.isArray(param_key) ? [...param_key] : []) : []
-    this.param_config = param_config ? [...param_config] : []
-    this.type = type
-    this.model_config = { ...model_config }
+  @TreeChildren()
+  children!: modelNode[]
+
+  constructor(init?: Partial<modelNode>) {
+    super(init)
+    if (init) {
+      this.type = init.type || 'script'
+      this.param_key = init.param_key || []
+      this.param_config = init.param_config || []
+      this.model_config = init.model_config || {}
+    }
   }
 }

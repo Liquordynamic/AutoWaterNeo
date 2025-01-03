@@ -11,8 +11,8 @@ export class processUtil {
   private static _sysCmdExeStr: string = process.platform === 'win32' ? 'cmd.exe' : 'bash'
   private static _sysLinkStr: string = process.platform === 'win32' ? '/c' : '-c'
 
-  private static _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository('modelNode')
-  private static _taskNodeRepo: Repository<taskNode> = repositoryUtil.getRepository('taskNode')
+  private static _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository(modelNode)
+  private static _taskNodeRepo: Repository<taskNode> = repositoryUtil.getRepository(taskNode)
 
   public static buildScriptProcess = async (task_node: taskNode): Promise<string> => {
     const model_node: modelNode | null = await this._modelNodeRepo.findOne({

@@ -1,8 +1,6 @@
 import 'reflect-metadata'
 import { Res } from '../types'
 import { modelNode } from '../model/modelNode'
-import { repositoryUtil } from '../util/repositoryUtil'
-import { Repository } from 'typeorm'
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import AdmZip from 'adm-zip'
@@ -11,9 +9,12 @@ import { pipeline } from 'stream/promises'
 import { createReadStream } from 'fs'
 import { taskNode } from '../model/taskNode'
 import { processUtil } from '../util/processUtil'
+import { baseService } from './base/baseService'
+import { Repository } from 'typeorm'
+import { repositoryUtil } from '../util/repositoryUtil'
 
-export class modelService {
-  private _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository('modelNode')
+export class modelService extends baseService<modelNode> {
+  private _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository(modelNode)
   private _scriptDir = import.meta.env.MAIN_VITE_SCRIPTS_DIR
 
   // 解压zip文件
@@ -46,13 +47,7 @@ export class modelService {
         return Res.error('script file is required for script type model')
       }
 
-      const model_node = new modelNode(
-        data.name,
-        data.type,
-        data.param_key,
-        data.param_config,
-        data.model_config
-      )
+      const model_node = new modelNode(data)
 
       if (data.type === 'script' && filePath) {
         // 区分zip文件和脚本文件
@@ -76,17 +71,6 @@ export class modelService {
     }
   }
 
-  // 获取模型列表
-  public list = async (): Promise<Res> => {
-    try {
-      const modelNodeList = await this._modelNodeRepo.find()
-      return Res.success('model list fetched successfully', modelNodeList)
-    } catch (error) {
-      console.error(`Failed to get model list: ${error}`)
-      return Res.error('Failed to get model list')
-    }
-  }
-
   // 删除模型
   public delete = async (id: string): Promise<Res> => {
     try {
@@ -101,17 +85,6 @@ export class modelService {
     }
   }
 
-  // 更新模型
-  public update = async (id: string, data: modelNode): Promise<Res> => {
-    try {
-      await this._modelNodeRepo.update(id, data)
-      return Res.success('model updated successfully')
-    } catch (error) {
-      console.error(`Failed to update model: ${error}`)
-      return Res.error('Failed to update model')
-    }
-  }
-
   // 使用默认值测试模型
   public test = async (id: string): Promise<Res> => {
     try {
@@ -122,7 +95,12 @@ export class modelService {
       // 根据param_key和param_config生成测试task_node
       const param_key = model.param_key
       const param_config = model.param_config
-      const task_node = new taskNode(model.id, 'created', {})
+      const task_node = new taskNode({
+        name: 'test',
+        model_node_id: model.id,
+        status: 'created',
+        params: {}
+      })
       for (const key of param_key) {
         const defaultValue = param_config.find((item) => item.name === key)?.defaultValue
         if (defaultValue) {

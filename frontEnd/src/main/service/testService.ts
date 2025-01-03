@@ -7,7 +7,7 @@ import { repositoryUtil } from '../util/repositoryUtil'
 import { Repository } from 'typeorm'
 
 export class testService {
-  private _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository('modelNode')
+  private _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository(modelNode)
 
   public testData = (): Res => {
     return { code: ResponseCode.SUCCESS, message: 'Hello from Express!', success: true }
@@ -16,10 +16,17 @@ export class testService {
   public testRunPy = async (name: string): Promise<Res> => {
     try {
       const model_node: modelNode | null = await this._modelNodeRepo.findOne({
-        where: { name: 'test' }
+        where: { name: 'test-model' }
       })
       if (model_node) {
-        const node = new taskNode(model_node.id, 'created', { name: name })
+        const node = new taskNode({
+          name: 'test',
+          model_node_id: model_node.id,
+          status: 'created',
+          params: {
+            name: name
+          }
+        })
         const task_node_id = await processUtil.buildScriptProcess(node)
         return Res.success(task_node_id)
       } else {

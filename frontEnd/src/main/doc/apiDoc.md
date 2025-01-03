@@ -59,7 +59,7 @@ POST /api/model/register
 }
 ```
 
-#### response body
+#### Response Body - Register
 
 ```json
 {
@@ -75,7 +75,7 @@ POST /api/model/register
 GET /api/model/list
 ```
 
-#### response body
+#### Response Body - List
 
 ```json
 {
@@ -114,7 +114,7 @@ GET /api/model/list
 DELETE /api/model/delete/:id
 ```
 
-#### response body
+#### Response Body - Delete
 
 ```json
 {
@@ -155,7 +155,7 @@ PUT /api/model/update/:id
 }
 ```
 
-#### response body
+#### Response Body - Update
 
 ```json
 {
@@ -171,7 +171,7 @@ PUT /api/model/update/:id
 POST /api/model/test/:id
 ```
 
-#### response body
+#### Response Body - Test
 
 ```json
 {
