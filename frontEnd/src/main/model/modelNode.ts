@@ -1,43 +1,69 @@
 import 'reflect-metadata'
-import { v4 as uuidv4 } from 'uuid'
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, Column, Tree, TreeParent, TreeChildren } from 'typeorm'
+import { baseNode } from './base/baseNode'
 
 @Entity('model_node')
-export class modelNode {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
-  @Column({ type: 'varchar', length: 255, nullable: false, default: 'test' })
-  name: string
+@Tree('materialized-path')
+export class modelNode extends baseNode {
+  @Column({ type: 'varchar', length: 32, nullable: false, default: 'script' })
+  type: 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue' = 'script'
 
   @Column({ type: 'simple-array', nullable: true, default: [] })
-  param_key: string[]
+  param_key: string[] = []
 
-  @Column({ type: 'varchar', length: 255, nullable: true, default: 'test' })
-  program: string
+  @Column({ type: 'json', nullable: true })
+  param_config: {
+    name: string
+    defaultValue?: string
+    prefix?: string
+    required?: boolean
+    description?: string
+  }[] = []
 
-  @Column({ type: 'varchar', length: 255, nullable: true, default: 'test' })
-  exe_prefix: string
+  @Column({ type: 'json', nullable: true })
+  model_config: {
+    // 脚本类型配置
+    entry_file?: string
+    exe_prefix?: string
+    conda_env?: string
 
-  @Column({ type: 'varchar', length: 255, nullable: true, default: 'test' })
-  conda_env: string
+    // REST API配置
+    endpoint?: string
+    method?: string
+    headers?: Record<string, string>
 
-  private generateUUID = (): string => {
-    return uuidv4()
-  }
+    // gRPC配置
+    grpcHost?: string
+    grpcPort?: number
+    serviceName?: string
+    methodName?: string
+    protoPath?: string
 
-  constructor(
-    name: string,
-    param_key: string[],
-    program: string,
-    exe_prefix: string,
-    conda_env: string
-  ) {
-    this.id = this.generateUUID()
-    this.name = name
-    this.param_key = param_key
-    this.program = program
-    this.exe_prefix = exe_prefix
-    this.conda_env = conda_env
+    // 本地服务配置
+    serviceHost?: string
+    servicePort?: number
+    protocol?: string // 通信协议
+
+    // 消息队列配置
+    queueName?: string
+    broker?: string
+    exchange?: string // 用于 RabbitMQ 等
+    topic?: string // 用于 Kafka 等
+  } = {}
+
+  @TreeParent()
+  parent!: modelNode | null
+
+  @TreeChildren()
+  children!: modelNode[]
+
+  constructor(init?: Partial<modelNode>) {
+    super(init)
+    if (init) {
+      this.type = init.type || 'script'
+      this.param_key = init.param_key || []
+      this.param_config = init.param_config || []
+      this.model_config = init.model_config || {}
+    }
   }
 }

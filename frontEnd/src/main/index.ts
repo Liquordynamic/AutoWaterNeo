@@ -13,11 +13,12 @@ import workerPath from './worker/testWorker?modulePath'
 import supervisorWorkerPath from './worker/supervisorWorker?modulePath'
 // import WorkerPool from './worker/workerPool'
 import WorkerPool from './worker/workerPool.simple'
+import { modelController } from './controller/modelController'
 
 const server = express()
 const port = 3000
 // const staticDir = 'D:/2024-work/HKData'
-const staticDir = 'E:/HKData/3DTiles'   //ljx数据地址
+const staticDir = 'E:/HKData/3DTiles' //ljx数据地址
 // const staticDir = 'E:/香港瓦片'
 
 server.use(cors())
@@ -29,6 +30,7 @@ server.use(express.json())
 
 // Controller
 server.use('/api/test', testController)
+server.use('/api/model', modelController)
 
 server.listen(port, () => {
   console.log('Express server is running on http://localhost:3000')
@@ -81,9 +83,6 @@ ipcMain.handle('sendJSONToMain', async (_event, data) => {
   return result
 })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron')
 
@@ -181,15 +180,8 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
