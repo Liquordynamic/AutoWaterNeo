@@ -9,7 +9,7 @@ out vec2 vTexCoords;
 
 void main()
 {
-    gl_Position = uMatrix * vec4(aPos.x, aPos.y, 0.0000001, 1.0);
+    gl_Position = uMatrix * vec4(aPos.x, aPos.y, 0.0000002, 1.0);
     vTexCoords = aTexCoords;
 }
 

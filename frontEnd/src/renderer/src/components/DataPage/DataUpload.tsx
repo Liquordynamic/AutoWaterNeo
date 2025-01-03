@@ -83,7 +83,7 @@ const DataUpload: React.FC<DataUploadProps> = ({ isVisible, onClose }) => {
   if (!isVisible) return null
 
   return (
-    <div className="bg-white p-1 rounded-lg shadow-md absolute top-5 left-5 bottom-10 w-1/6 z-10 ">
+    <div className="bg-white p-1 rounded-lg shadow-md absolute top-5 left-5 bottom-10 w-1/6 z-20 ">
       <div className="bg-white p-4 w-full h-full overflow-auto">
         <form onSubmit={handleSubmit} className="form-container">
           <div className="bg-cyan-100 rounded-lg p-1">

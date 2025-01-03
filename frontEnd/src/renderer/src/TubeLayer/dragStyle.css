@@ -1,0 +1,29 @@
+div.drag {
+    z-index: 1;
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    background-color: transparent;
+    cursor: move;
+
+}
+
+div.drag::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.8rem;
+
+    background-color: rgb(209, 209, 209);
+    background-image: url('/drag.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
