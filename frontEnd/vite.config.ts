@@ -15,6 +15,9 @@ export default defineConfig({
     }
   },
   server: {
-    host: '0.0.0.0',
+    // host: '0.0.0.0',
+    headers: {
+      'Content-Security-Policy': "worker-src 'self' blob:; default-src 'self';"
+    }
   },
 })

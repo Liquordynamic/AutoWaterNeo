@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { lnglat2MyWorld, calcMatrix } from '../../lib/LargeWorld';
+import { lnglat2MyWorld, calcMatrix, mercatorFromLngLat } from '../../lib/LargeWorld';
 import * as util from '../../lib/glLib'
 import shaderCode from '../../shader/threeboxTry.glsl?raw'
 
@@ -124,11 +124,12 @@ export default class TubeLayer {
         gl.uniform1f(gl.getUniformLocation(program, 'scaleRate'), scaleRate)
         gl.uniform1f(gl.getUniformLocation(program, 'u_time'), this.curTime)
         gl.uniform1f(gl.getUniformLocation(program, 'u_density'), 30.0)
+
         if(this.map.transform.zoom < 15)
             gl.uniform1f(gl.getUniformLocation(program, 'u_threshold'), 1.0)
         else
             gl.uniform1f(gl.getUniformLocation(program, 'u_threshold'), 0.5)
-        gl.uniform1f(gl.getUniformLocation(program, 'u_flow_speed'), 0.5)
+        gl.uniform1f(gl.getUniformLocation(program, 'u_flow_speed'), 1.0)
         gl.uniform1f(gl.getUniformLocation(program, 'u_flow'), 0.5)
         gl.uniform1f(gl.getUniformLocation(program, 'u_max_flow'), 3.0)
         gl.uniform1f(gl.getUniformLocation(program, 'u_color_darkness'), 0.5)

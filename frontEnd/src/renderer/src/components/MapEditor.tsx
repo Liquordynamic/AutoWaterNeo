@@ -13,7 +13,9 @@ import catchpitJson from '../assets/catchpit.json'
 
 ////// layers
 import PenerateLayer from '../TubeLayer/layers/ScreenPenerateLayer.js'
-import TubeLayer from '../TubeLayer/layers/TubeLayer.js';
+import TubeLayer from '../TubeLayer/layers/TubeLayer.js'
+// import ChannelLayer from '../TubeLayer/layers/undergroundLayers/ChannelLayer.js';
+// import CatchpitLayer from '../TubeLayer/layers/undergroundLayers/CatchpitLayer';
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -71,7 +73,16 @@ const MapComponent: React.FC<MapComponentProps> = ({
         decodeQuantizedPositions: false,
         isTileset: 'auto',
         assetGltfUpAxis: null
-      }
+      },
+      // onTilesetLoad: (tileset) => {
+      //   const { cartographicCenter, zoom } = tileset;
+      //   this.deckOverlay.setProps({
+      //     initialViewState: {
+      //       longitude: cartographicCenter[0],
+      //       latitude: cartographicCenter[1],
+      //     },
+      //   });
+      // }
     })
   }, [])
 
@@ -91,7 +102,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
       })
 
       mapInstance.on('load', () => {
+
         setMap(mapInstance)
+
         const config = {
           line_geojson: channelJson,
           canvas: document.querySelector("#deck"),
@@ -99,6 +112,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
           maxZoom: 20
         }
         const tubeLayer = new TubeLayer("tube_layer", config)
+
+        /////// under ground layer group
+        // const tubeLayer = new TubeLayer("tube_layer", document.querySelector("#deck"))
         mapInstance.addLayer(tubeLayer)
         // mapInstance.addLayer(NDCPenerateLayer)
       });

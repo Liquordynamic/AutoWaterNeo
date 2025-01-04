@@ -9,7 +9,6 @@ import CanvasOverlay from './components/LayerPage/CanvasOverlay'
 import { NavMenu } from './components/layout/NavMenu'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { pipeline } from 'stream'
 
 function App(): JSX.Element {
   const RADIO_ITEMS = ['Dark', 'Light']

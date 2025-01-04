@@ -11,6 +11,8 @@ import catchpitJson from '../assets/catchpit.json'
 ////// layers
 import PenerateLayer from './layers/ScreenPenerateLayer';
 import TubeLayer from './layers/TubeLayer';
+import ChannelLayer from './layers/undergroundLayers/channelLayer';
+import CatchpitLayer from './layers/undergroundLayers/CatchpitLayer';
 
 export const start = () => {
     // let map = new mapboxgl.Map({
@@ -27,16 +29,37 @@ export const start = () => {
             lat: 22.44979484375407
         }).addTo(map)
 
+        /////// under ground layer group
+        const tubeLayer = new TubeLayer("tube_layer", document.querySelector("#deck"))
+        map.addLayer(tubeLayer)
+
+        ////////////// sublayer --- channel layer
+        const channerLayer = new ChannelLayer("channel_layer", {
+            line_geojson: channelJson,
+            minZoom: 10,
+            maxZoom: 20,
+            initializedCallback: () => {
+                ////////////// sublayer --- catchpit_layer
+                const catchpitLayer = new CatchpitLayer("catchpit_layer", {
+                    point_geojson: catchpitJson,
+                    minZoom: 10,
+                    maxZoom: 20
+                })
+                tubeLayer.addSubLayer(catchpitLayer)
+            }
+        })
+        tubeLayer.addSubLayer(channerLayer)
+        
         let BBOX = [-1, -1, 1, 0]
         const NDCPenerateLayer = new PenerateLayer("penetrate-layer", BBOX)
-        const config = {
-            line_geojson: channelJson,
-            canvas: document.querySelector("#deck"),
-            minZoom: 10,
-            maxZoom: 20
-        }
-        const tubeLayer = new TubeLayer("tube_layer", config)
-        map.addLayer(tubeLayer)
+        // const config = {
+        //     line_geojson: channelJson,
+        //     canvas: document.querySelector("#deck"),
+        //     minZoom: 10,
+        //     maxZoom: 20
+        // }
+        // const tubeLayer = new TubeLayer("tube_layer", config)
+        // map.addLayer(tubeLayer)
         map.addLayer(NDCPenerateLayer)
 
         // document.addEventListener('keydown', e => {

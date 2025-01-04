@@ -98,14 +98,13 @@ export default class PenerateLayer {
     }
 
     initDragDom() {
-        console.log("initDragDom")
         ////// craete drag div
         const parent = document.querySelector('#tube')
         let dragDiv = this.dragDiv = document.createElement('div')
         dragDiv.classList.add('drag')
         dragDiv.style.left = '50%';
-        dragDiv.style.top = 'calc(50%)';
-        dragDiv.style.transform = 'translate(-50%, -50%)';
+        dragDiv.style.top = 'calc(50% - 2.5rem)';
+        dragDiv.style.transform = 'translate(-50%, 0%)';
         parent.appendChild(dragDiv)
 
         ////// drag states

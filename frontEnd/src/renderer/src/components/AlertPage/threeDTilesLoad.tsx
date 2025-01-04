@@ -1,9 +1,7 @@
 import React from 'react'
 import SectionHeading from '../ui/SectionHeading';
-import { Toaster } from "@renderer/components/ui/toaster"
-import { useToast } from "@renderer/hooks/use-toast"
+import { toast } from 'sonner';
 import { Button } from "@renderer/components/ui/button"
-import { ToastAction } from "@renderer/components/ui/toast"
 
 type threeDTilesLoadProps = {
   isVisible: boolean;
@@ -12,9 +10,18 @@ type threeDTilesLoadProps = {
 
 const threeDTilesLoad: React.FC<threeDTilesLoadProps> = ({ isVisible, onClose }) => {
 
-  const { toast } = useToast()
-
   if (!isVisible) return null;
+
+  const handleCancel = () => {
+    toast('Loading cancelled.', {
+      description: 'You have cancelled the 3DTiles loading process.',
+      action: {
+        label: 'Undo',
+        onClick: () => toast('Undo action triggered!')
+      }
+    });
+    onClose();
+  };
 
   return (
     <>
@@ -30,26 +37,11 @@ const threeDTilesLoad: React.FC<threeDTilesLoadProps> = ({ isVisible, onClose })
               <div className="animate-spin rounded-full mt-4 h-16 w-16 border-t-4 border-b-4 border-cyan-100"></div>
             </div>
             <div className="flex items-center justify-end gap-x-6">
-              {/* <button
-                type="button"
-                className="text-sm font-semibold text-white px-3"
-                onClick={() => { onClose() }}
-              >
-                Cancel
-              </button> */}
               <Button
                 variant="outline"
-                onClick={() => {
-                  onClose()
-                  toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                    action: <ToastAction altText="Try again">Try again</ToastAction>,
-                  })
-                }}
+                onClick={handleCancel}
               >
-                Show Toast
+                Cancel
               </Button>
             </div>
           </form>
@@ -60,4 +52,3 @@ const threeDTilesLoad: React.FC<threeDTilesLoadProps> = ({ isVisible, onClose })
 }
 
 export default threeDTilesLoad
-

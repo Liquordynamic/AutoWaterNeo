@@ -1,4 +1,3 @@
-// custom.d.ts
 import * as React from 'react'
 
 // 扩展 React 的 InputHTMLAttributes 类型
