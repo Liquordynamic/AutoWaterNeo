@@ -29,7 +29,7 @@ const DataTable: React.FC<DataTableProps> = ({
     };
     const handleThreeDTileAgreedChange = (checked: boolean) => {
         setThreeDTileAgreed(checked);
-        setShowThreeDTilesLoading(checked);
+        // setShowThreeDTilesLoading(checked);
     };
     const handleFloodingResultAgreedChange = (checked: boolean) => {
         setFloodingResultAgreed(checked);
