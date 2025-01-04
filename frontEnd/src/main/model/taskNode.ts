@@ -1,29 +1,32 @@
 import 'reflect-metadata'
+import { Entity, Column, Tree, TreeChildren, TreeParent } from 'typeorm'
+import { baseNode } from './base/baseNode'
 import { v4 as uuidv4 } from 'uuid'
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity('task_node')
-export class taskNode {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+@Tree('materialized-path')
+export class taskNode extends baseNode {
+  @Column({ type: 'uuid', nullable: false, default: () => 'uuid_generate_v4()' })
+  model_node_id: string = uuidv4()
 
-  @Column({ type: 'uuid', nullable: false })
-  model_node_id: string
-
-  @Column({ type: 'varchar', length: 255, nullable: false, default: 'test' })
-  status: string
+  @Column({ type: 'varchar', length: 255, nullable: false, default: 'default' })
+  status: string = 'default'
 
   @Column({ type: 'simple-json', nullable: true, default: {} })
-  params: Record<string, string>
+  params: Record<string, string> = {}
 
-  private generateUUID = (): string => {
-    return uuidv4()
-  }
+  @TreeParent()
+  parent!: taskNode | null
 
-  constructor(model_node_id: string, status: string, params: Record<string, string>) {
-    this.id = this.generateUUID()
-    this.model_node_id = model_node_id
-    this.status = status
-    this.params = params
+  @TreeChildren()
+  children!: taskNode[]
+
+  constructor(init?: Partial<taskNode>) {
+    super(init)
+    if (init) {
+      this.model_node_id = init.model_node_id || ''
+      this.status = init.status || ''
+      this.params = init.params || {}
+    }
   }
 }

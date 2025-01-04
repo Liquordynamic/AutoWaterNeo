@@ -7,11 +7,18 @@ import express from 'express'
 import cors from 'cors'
 import { testController } from './controller/testController'
 import { AppDataSource } from './data-source'
+import { Worker } from 'worker_threads'
+// import createWorker from './worker/simpleWorker?nodeWorker'
+import workerPath from './worker/testWorker?modulePath'
+import supervisorWorkerPath from './worker/supervisorWorker?modulePath'
+// import WorkerPool from './worker/workerPool'
+import WorkerPool from './worker/workerPool.simple'
+import { modelController } from './controller/modelController'
 
 const server = express()
 const port = 3000
 // const staticDir = 'D:/2024-work/HKData'
-const staticDir = 'E:/HKData/3DTiles'   //ljx数据地址
+const staticDir = 'E:/HKData/3DTiles' //ljx数据地址
 // const staticDir = 'E:/香港瓦片'
 
 server.use(cors())
@@ -23,6 +30,7 @@ server.use(express.json())
 
 // Controller
 server.use('/api/test', testController)
+server.use('/api/model', modelController)
 
 server.listen(port, () => {
   console.log('Express server is running on http://localhost:3000')
@@ -75,9 +83,6 @@ ipcMain.handle('sendJSONToMain', async (_event, data) => {
   return result
 })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron')
 
@@ -93,21 +98,90 @@ app.whenReady().then(async () => {
 
   createWindow()
 
+  // const workerPool = new WorkerPool(workerPath)
+  // Promise.all(
+  //   [4, 12, 13, 15].map(async (item) => {
+  //     await workerPool.run({ userId: item })
+  //   })
+  // ).then(() => {
+  //   // 销毁线程池
+  //   workerPool.destroy()
+  // })
+  const workPoolTest = false
+  if (workPoolTest) {
+    const pool = new WorkerPool({
+      numWorkers: 4,
+      taskTimeout: 5000,
+      workerPath
+    })
+    const supervisor = new Worker(supervisorWorkerPath)
+
+    // Forward worker pool events to supervisor
+    pool.on('workerMessage', (data) => {
+      supervisor.postMessage({ type: 'workerMessage', data })
+    })
+
+    pool.on('workerError', (data) => {
+      supervisor.postMessage({ type: 'workerError', data })
+    })
+
+    pool.on('workerExit', (data) => {
+      supervisor.postMessage({ type: 'workerExit', data })
+    })
+
+    supervisor.on('message', (message) => {
+      if (message.type === 'combinedResults') {
+        console.log('Combined results:', message.data)
+      } else if (message.type === 'status') {
+        console.log('Worker pool status:', message.data)
+      }
+    })
+
+    // Method 1: Using completion event
+    // pool.on('allTasksComplete', (status) => {
+    //   console.log('All tasks completed!', status)
+    //   // You can now safely terminate or process final results
+    // })
+
+    // Method 2: Monitor completion status
+    pool.on('completionStatus', (status) => {
+      console.log('Completion status:', {
+        completed: status.completedTasks,
+        failed: status.failedTasks,
+        remaining: status.remainingTasks,
+        total: status.totalTasks,
+        percentComplete: ((status.completedTasks / status.totalTasks) * 100).toFixed(2) + '%'
+      })
+    })
+
+    try {
+      const tasks = [
+        { type: 'aggregate', data: [1, 2, 3] },
+        { type: 'aggregate', data: [4, 5, 6] },
+        { type: 'aggregate', data: [7, 8, 9] }
+      ]
+
+      await Promise.all(tasks.map((task) => pool.executeTask(task)))
+      // Method 3: Using batch execution
+      // const { results, status } = await pool.executeBatch(tasks)
+      // console.log('Batch execution completed:', {
+      //   results,
+      //   status
+      // })
+    } finally {
+      await pool.terminate()
+      await supervisor.terminate()
+    }
+  }
+
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
