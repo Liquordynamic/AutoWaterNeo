@@ -20,7 +20,7 @@ export class testService {
       })
       if (model_node) {
         const node = new taskNode({
-          name: 'test',
+          name: 'test-model',
           model_node_id: model_node.id,
           status: 'created',
           params: {

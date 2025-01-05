@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Entity, Column, Tree, TreeParent, TreeChildren } from 'typeorm'
+import { Entity, Column, TreeChildren, TreeParent, Tree } from 'typeorm'
 import { baseNode } from './base/baseNode'
 
 @Entity('model_node')
@@ -52,10 +52,10 @@ export class modelNode extends baseNode {
   } = {}
 
   @TreeParent()
-  parent!: modelNode | null
+  declare parent: modelNode | null
 
   @TreeChildren()
-  children!: modelNode[]
+  declare children: modelNode[]
 
   constructor(init?: Partial<modelNode>) {
     super(init)

@@ -111,7 +111,7 @@ GET /api/model/list
 ### 删除模型
 
 ```json
-DELETE /api/model/delete/:id
+DELETE /api/model/:id
 ```
 
 #### Response Body - Delete
@@ -127,7 +127,7 @@ DELETE /api/model/delete/:id
 ### 更新模型
 
 ```json
-PUT /api/model/update/:id
+PUT /api/model/:id
 ```
 
 #### request body

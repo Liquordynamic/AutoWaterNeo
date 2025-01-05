@@ -6,7 +6,7 @@ import { Res } from '../../types'
 export interface IBaseService<T extends baseNode> {
   getNode(id: string): Promise<Res<T>>
   getNodeList(): Promise<Res<T[]>>
-  createNode(node: T): Promise<Res<T>>
+  createNode(node: T, parentId: string): Promise<Res<T>>
   updateNode(id: string, node: T): Promise<Res<T>>
   deleteNode(id: string): Promise<Res<void>>
 }
@@ -33,11 +33,19 @@ export abstract class baseService<T extends baseNode> implements IBaseService<T>
     return Res.success('Node list found', nodes)
   }
 
-  // 创建节点
-  public async createNode(node: T): Promise<Res<T>> {
+  // 创建节点：维护父子关系 + 保存
+  public async createNode(node: T, parentId?: string): Promise<Res<T>> {
     try {
-      const result = await this._baseNodeRepo.save(node)
-      return Res.success('Node created successfully', result)
+      if (parentId) {
+        const parentNode = await this._baseNodeRepo.findOne({
+          where: { id: parentId } as FindOptionsWhere<T>
+        })
+        if (parentNode) {
+          node.parent = parentNode
+          await this._baseNodeRepo.save(node)
+        }
+      }
+      return Res.success('Node created successfully', node)
     } catch (error) {
       return Res.error('Failed to create node')
     }

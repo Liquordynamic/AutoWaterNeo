@@ -3,45 +3,19 @@ import { Res } from '../types'
 import { modelNode } from '../model/modelNode'
 import * as fs from 'fs/promises'
 import * as path from 'path'
-import AdmZip from 'adm-zip'
-import { createWriteStream } from 'fs'
-import { pipeline } from 'stream/promises'
-import { createReadStream } from 'fs'
 import { taskNode } from '../model/taskNode'
 import { processUtil } from '../util/processUtil'
 import { baseService } from './base/baseService'
 import { Repository } from 'typeorm'
 import { repositoryUtil } from '../util/repositoryUtil'
+import { fileUtil } from '../util/fileUtil'
 
 export class modelService extends baseService<modelNode> {
   private _modelNodeRepo: Repository<modelNode> = repositoryUtil.getRepository(modelNode)
   private _scriptDir = import.meta.env.MAIN_VITE_SCRIPTS_DIR
 
-  // 解压zip文件
-  private async extractZipFile(model_node_id: string, zipFile: string): Promise<string> {
-    const modelDir = path.join(this._scriptDir, model_node_id)
-    // 确保目录存在
-    await fs.mkdir(modelDir, { recursive: true })
-
-    const tempZipPath = path.join(modelDir, 'temp.zip')
-
-    // 使用 stream 处理 File
-    const readStream = createReadStream(zipFile)
-    const writeStream = createWriteStream(tempZipPath)
-    await pipeline(readStream, writeStream)
-
-    // 解压文件
-    const zip = new AdmZip(tempZipPath)
-    zip.extractAllTo(modelDir, true)
-
-    // 删除临时zip文件
-    await fs.unlink(tempZipPath)
-
-    return modelDir
-  }
-
   // 注册模型
-  public register = async (data: modelNode, filePath: string): Promise<Res> => {
+  public register = async (data: modelNode, filePath?: string): Promise<Res> => {
     try {
       if (data.type === 'script' && !filePath) {
         return Res.error('script file is required for script type model')
@@ -54,7 +28,7 @@ export class modelService extends baseService<modelNode> {
         if (filePath.endsWith('.zip')) {
           console.log('zip file')
           // 解压zip文件
-          await this.extractZipFile(model_node.id, filePath)
+          await fileUtil.extractZipFile(model_node.id, filePath)
         } else {
           // 复制脚本文件到模型目录
           const modelDir = path.join(this._scriptDir, model_node.id)
