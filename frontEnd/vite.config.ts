@@ -4,6 +4,13 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        format: 'es'
+      }
+    }
+  },
   plugins: [
     react(),
     glsl(),
@@ -17,7 +24,8 @@ export default defineConfig({
   server: {
     // host: '0.0.0.0',
     headers: {
-      'Content-Security-Policy': "worker-src 'self' blob:; default-src 'self';"
+      // 'Content-Security-Policy': "worker-src 'self' blob:; default-src 'self';"
+       'Content-Security-Policy': "worker-src 'self' blob: http://localhost:5173"
     }
   },
 })

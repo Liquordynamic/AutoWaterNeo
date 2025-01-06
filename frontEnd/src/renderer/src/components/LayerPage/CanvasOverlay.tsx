@@ -24,10 +24,10 @@ const CanvasOverlay: React.FC = () => {
     }, []);
 
     return (
-        <div id='tube'>
+        <div id='tube' className='w-full'>
             <canvas
                 ref={canvasRef}
-                className="absolute top-0 left-0 -z-50"
+                className="absolute top-0 left-0 -z-50 w-full"
                 id="deck"
             ></canvas>
         </div>

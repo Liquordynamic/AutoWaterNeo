@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 mapboxgl.accessToken = 'pk.eyJ1IjoieWNzb2t1IiwiYSI6ImNrenozdWdodDAza3EzY3BtdHh4cm5pangifQ.ZigfygDi2bK4HXY1pWh-wg'
 
-
 /////// tube geo-data
 import channelJson from '../assets/channel.json'
 import catchpitJson from '../assets/catchpit.json'
@@ -11,7 +10,7 @@ import catchpitJson from '../assets/catchpit.json'
 ////// layers
 import PenerateLayer from './layers/ScreenPenerateLayer';
 import TubeLayer from './layers/TubeLayer';
-import ChannelLayer from './layers/undergroundLayers/channelLayer';
+import ChannelLayer from './layers/undergroundLayers/ChannelLayer';
 import CatchpitLayer from './layers/undergroundLayers/CatchpitLayer';
 
 export const start = () => {
@@ -83,14 +82,3 @@ export const start = () => {
 
     })
 }
-
-
-
-
-
-
-
-
-
-
-

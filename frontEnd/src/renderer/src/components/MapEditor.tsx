@@ -14,8 +14,8 @@ import catchpitJson from '../assets/catchpit.json'
 ////// layers
 import PenerateLayer from '../TubeLayer/layers/ScreenPenerateLayer.js'
 import TubeLayer from '../TubeLayer/layers/TubeLayer.js'
-// import ChannelLayer from '../TubeLayer/layers/undergroundLayers/ChannelLayer.js';
-// import CatchpitLayer from '../TubeLayer/layers/undergroundLayers/CatchpitLayer';
+import ChannelLayer from '../TubeLayer/layers/undergroundLayers/ChannelLayer';
+import CatchpitLayer from '../TubeLayer/layers/undergroundLayers/CatchpitLayer';
 
 interface MapComponentProps {
   initialLongitude?: number
@@ -105,18 +105,36 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
         setMap(mapInstance)
 
-        const config = {
-          line_geojson: channelJson,
-          canvas: document.querySelector("#deck"),
-          minZoom: 10,
-          maxZoom: 20
-        }
-        const tubeLayer = new TubeLayer("tube_layer", config)
+        // const config = {
+        //   line_geojson: channelJson,
+        //   canvas: document.querySelector("#deck"),
+        //   minZoom: 10,
+        //   maxZoom: 20
+        // }
+        // const tubeLayer = new TubeLayer("tube_layer", config)
+
+        // mapInstance.addLayer(NDCPenerateLayer)
 
         /////// under ground layer group
-        // const tubeLayer = new TubeLayer("tube_layer", document.querySelector("#deck"))
+        const tubeLayer = new TubeLayer("tube_layer", document.querySelector("#deck"))
         mapInstance.addLayer(tubeLayer)
-        // mapInstance.addLayer(NDCPenerateLayer)
+
+        ////////////// sublayer --- channel layer
+        const channerLayer = new ChannelLayer("channel_layer", {
+          line_geojson: channelJson,
+          minZoom: 10,
+          maxZoom: 20,
+          initializedCallback: () => {
+            ////////////// sublayer --- catchpit_layer
+            const catchpitLayer = new CatchpitLayer("catchpit_layer", {
+              point_geojson: catchpitJson,
+              minZoom: 10,
+              maxZoom: 20
+            })
+            tubeLayer.addSubLayer(catchpitLayer)
+          }
+        })
+        tubeLayer.addSubLayer(channerLayer)
       });
 
       return (): void => {

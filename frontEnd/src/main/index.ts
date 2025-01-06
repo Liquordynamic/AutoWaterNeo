@@ -47,6 +47,8 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
+      // nodeIntegration: true,  // 可选，如果需要在渲染进程使用 Node.js API
+      nodeIntegrationInWorker: true, // 在 Web Worker 中启用 Node.js API
       sandbox: false
     }
   })
