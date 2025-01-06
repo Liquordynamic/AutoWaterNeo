@@ -36,15 +36,16 @@ export abstract class baseService<T extends baseNode> implements IBaseService<T>
   // 创建节点：维护父子关系 + 保存
   public async createNode(node: T, parentId?: string): Promise<Res<T>> {
     try {
+      // 如果parentId存在，则维护父子关系
       if (parentId) {
         const parentNode = await this._baseNodeRepo.findOne({
           where: { id: parentId } as FindOptionsWhere<T>
         })
         if (parentNode) {
           node.parent = parentNode
-          await this._baseNodeRepo.save(node)
         }
       }
+      await this._baseNodeRepo.save(node)
       return Res.success('Node created successfully', node)
     } catch (error) {
       return Res.error('Failed to create node')
@@ -69,5 +70,16 @@ export abstract class baseService<T extends baseNode> implements IBaseService<T>
     } catch (error) {
       return Res.error('Failed to delete node')
     }
+  }
+
+  // 获取节点的所有后代
+  public async getDescendantsTree(id: string): Promise<Res<T>> {
+    const node = await this._baseNodeRepo.findOne({ where: { id } as FindOptionsWhere<T> })
+    if (!node) {
+      return Res.error('Node not found')
+    }
+    const repository = this._baseNodeRepo.manager.getTreeRepository(this.entityClass)
+    const descendants = await repository.findDescendantsTree(node)
+    return Res.success('Descendants found', descendants)
   }
 }

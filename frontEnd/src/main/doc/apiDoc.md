@@ -56,7 +56,8 @@ POST /api/model/register
     "exchange": "test_exchange",
     "topic": "test_topic"
   }
-}
+},
+"parentId": "parent_id"
 ```
 
 #### Response Body - Register
@@ -64,8 +65,9 @@ POST /api/model/register
 ```json
 {
   "code": 200,
-  "message": "success",
-  "success": true
+  "message": "model registered successfully",
+  "success": true,
+  "data": "model_id"
 }
 ```
 
@@ -178,5 +180,22 @@ POST /api/model/test/:id
   "code": 200,
   "message": "model test successfully",
   "success": true
+}
+```
+
+### 获取模型后代
+
+```json
+GET /api/model/descendants/:id
+```
+
+#### Response Body - Descendants
+
+```json
+{
+  "code": 200,
+  "message": "descendants fetched successfully",
+  "success": true,
+  "data": "descendants"
 }
 ```

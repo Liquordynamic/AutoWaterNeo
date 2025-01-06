@@ -23,10 +23,8 @@ const upload = multer({ storage: storage })
 modelController.post('/register', upload.single('file'), async (req: Request, res: Response) => {
   const fileDir = req.file?.path
   const data = JSON.parse(req.body.data)
-  const parentId = req.body.parentId
-  const result = await model_service.createNode(data, parentId)
-  // TODO: 再调用具体的注册方法
-  // const result = await model_service.register(data, fileDir, parentId)
+  const parentId = req.body?.parentId
+  const result = await model_service.register(data, parentId, fileDir)
   // 删除上传的文件
   if (fileDir) {
     fs.unlink(fileDir, (err) => {
@@ -59,5 +57,11 @@ modelController.put('/:id', async (req: Request, res: Response) => {
 // api/model/test/:id
 modelController.get('/test/:id', async (req: Request, res: Response) => {
   const result = await model_service.test(req.params.id)
+  res.status(result.code).json(result)
+})
+
+// api/model/descendants/:id
+modelController.get('/descendants/:id', async (req: Request, res: Response) => {
+  const result = await model_service.getDescendantsTree(req.params.id)
   res.status(result.code).json(result)
 })

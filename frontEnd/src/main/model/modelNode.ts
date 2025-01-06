@@ -5,8 +5,8 @@ import { baseNode } from './base/baseNode'
 @Entity('model_node')
 @Tree('materialized-path')
 export class modelNode extends baseNode {
-  @Column({ type: 'varchar', length: 32, nullable: false, default: 'script' })
-  type: 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue' = 'script'
+  @Column({ type: 'varchar', length: 32, nullable: false, default: 'category' })
+  type: 'category' | 'script' | 'rest_api' | 'grpc' | 'local_service' | 'message_queue' = 'category'
 
   @Column({ type: 'simple-array', nullable: true, default: [] })
   param_key: string[] = []
