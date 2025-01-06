@@ -17,7 +17,11 @@ export default defineConfig({
     },
     plugins: [react()],
     server: {
-      host: '0.0.0.0'
+      host: '0.0.0.0',
+      headers: {
+        // 'Content-Security-Policy': "worker-src 'self' blob:; default-src 'self';"
+         'Content-Security-Policy': "worker-src 'self' blob: http://localhost:5173"
+      }
     }
   }
 })

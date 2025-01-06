@@ -97,7 +97,7 @@ const DataTable: React.FC<DataTableProps> = ({
                                         />
                                     </Switch>
                                 </div>
-                                <div className="flex h-6 items-center justify-between">
+                                {/* <div className="flex h-6 items-center justify-between">
                                     <p className="mt-1 text-sm text-gray-600">Pause Water Flooding</p>
                                     <Button
                                         variant="ghost"
@@ -105,7 +105,7 @@ const DataTable: React.FC<DataTableProps> = ({
                                     >
                                         Pause
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="mt-6 flex items-center justify-end gap-x-6">
