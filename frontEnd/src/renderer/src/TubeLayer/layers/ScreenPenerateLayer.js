@@ -103,7 +103,7 @@ export default class PenerateLayer {
         let dragDiv = this.dragDiv = document.createElement('div')
         dragDiv.classList.add('drag')
         dragDiv.style.left = '50%';
-        dragDiv.style.top = 'calc(50% - 2.5rem)';
+        dragDiv.style.top = 'calc(50% - 2.5rem + 2rem)';
         dragDiv.style.transform = 'translate(-50%, 0%)';
         parent.appendChild(dragDiv)
 

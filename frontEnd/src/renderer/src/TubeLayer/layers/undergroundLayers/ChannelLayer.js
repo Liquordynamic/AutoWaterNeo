@@ -259,4 +259,13 @@ export default class ChannelLayer {
         this.gui.domElement.parentElement.style.top = '50px'
     }
 
+    toggleGUI(isVisible) {
+        if (this.gui) {
+            if (isVisible) {
+                this.gui.domElement.style.display = 'block'; // 显示 GUI
+            } else {
+                this.gui.domElement.style.display = 'none'; // 隐藏 GUI
+            }
+        }
+    }
 }

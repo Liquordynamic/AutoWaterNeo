@@ -2,6 +2,7 @@ import React from 'react'
 import SectionHeading from '../ui/SectionHeading'
 import { Switch } from "@renderer/components/ui/switch"
 import { Button } from "@renderer/components/ui/button"
+import { useAppContext } from '@renderer/AppContext'
 
 type DataTableProps = {
     isVisible: boolean;
@@ -24,8 +25,13 @@ const DataTable: React.FC<DataTableProps> = ({
     setShowThreeDTilesLoading
 }) => {
 
+    // const { channelLayer } = useAppContext(); // 从上下文中获取 ChannelLayer 实例
+
     const handlePipelineAgreed = (checked: boolean) => {
         setPipelineAgreed(checked);
+        // if (channelLayer) {
+        //     channelLayer.toggleGUI(checked); // 调用 ChannelLayer 的 toggleGUI 方法
+        //   }
     };
     const handleThreeDTileAgreedChange = (checked: boolean) => {
         setThreeDTileAgreed(checked);
@@ -43,7 +49,7 @@ const DataTable: React.FC<DataTableProps> = ({
                 <div className='bg-white p-4 w-full h-full overflow-auto'>
                     <form>
                         <div className='bg-cyan-100 rounded-lg p-1'>
-                            <SectionHeading title='Display Table' subTitle='' />
+                            <h2 className="text-[2.635em] font-black text-center">Display Table</h2>
                         </div>
                         <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 pb-2">
                             <div className="col-span-full border-b border-gray-900/10 pb-4">
