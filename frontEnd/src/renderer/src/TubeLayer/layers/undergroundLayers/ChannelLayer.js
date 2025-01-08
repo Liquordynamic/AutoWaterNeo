@@ -260,7 +260,6 @@ export default class ChannelLayer {
         this.gui.close();
     }
 
-<<<<<<< HEAD
     showGUI() {
         this.gui.open();
         console.log(1)
@@ -268,15 +267,5 @@ export default class ChannelLayer {
 
     hideGUI() {
         this.gui.close();
-=======
-    toggleGUI(isVisible) {
-        if (this.gui) {
-            if (isVisible) {
-                this.gui.domElement.style.display = 'block'; // 显示 GUI
-            } else {
-                this.gui.domElement.style.display = 'none'; // 隐藏 GUI
-            }
-        }
->>>>>>> dae0c8f53e2b17e457ba0c622ebe82f54c03d4be
     }
 }
