@@ -67,6 +67,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   const createTileLayer = useCallback((id: string) => {
     return new Tile3DLayer({
       id,
+      beforeId:"penetrate-layer",
       data: `http://localhost:3000/${id}/tileset.json`,  //!!!更改加载方式!!!
       loader: Tiles3DLoader,
       loadOptions: {

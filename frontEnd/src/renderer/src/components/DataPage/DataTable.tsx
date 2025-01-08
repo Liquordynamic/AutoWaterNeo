@@ -49,7 +49,7 @@ const DataTable: React.FC<DataTableProps> = ({
                 <div className='bg-white p-4 w-full h-full overflow-auto'>
                     <form>
                         <div className='bg-cyan-100 rounded-lg p-1'>
-                            <SectionHeading title='Display Table' subTitle='' />
+                            <h2 className="text-[2.635em] font-black text-center">Display Table</h2>
                         </div>
                         <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 pb-2">
                             <div className="col-span-full border-b border-gray-900/10 pb-4">
