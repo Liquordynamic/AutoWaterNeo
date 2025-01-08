@@ -257,6 +257,15 @@ export default class ChannelLayer {
         // this.gui.domElement.style.zIndex = '9999'
         this.gui.domElement.parentElement.style.zIndex = '1'
         this.gui.domElement.parentElement.style.top = '50px'
+        this.gui.close();
     }
 
+    showGUI() {
+        this.gui.open();
+        console.log(1)
+    }
+
+    hideGUI() {
+        this.gui.close();
+    }
 }

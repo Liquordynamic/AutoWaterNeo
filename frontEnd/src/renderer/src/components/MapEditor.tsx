@@ -17,6 +17,8 @@ import TubeLayer from '../TubeLayer/layers/TubeLayer.js'
 import ChannelLayer from '../TubeLayer/layers/undergroundLayers/ChannelLayer';
 import CatchpitLayer from '../TubeLayer/layers/undergroundLayers/CatchpitLayer';
 
+let channerLayer;
+
 interface MapComponentProps {
   initialLongitude?: number
   initialLatitude?: number
@@ -51,6 +53,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   // 水淹效果图层
   const floodingLayer = new DemLayer() as mapboxgl.AnyLayer;
+
 
   // 3D瓦片的配置数据
   const tileLayerData = [
@@ -120,7 +123,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
         mapInstance.addLayer(tubeLayer)
 
         ////////////// sublayer --- channel layer
-        const channerLayer = new ChannelLayer("channel_layer", {
+        channerLayer = new ChannelLayer("channel_layer", {
           line_geojson: channelJson,
           minZoom: 10,
           maxZoom: 20,
@@ -223,7 +226,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   useEffect(() => {
     if (!map) return;
-
     const addLayerIfNotExists = (layer, beforeId) => {
       if (!map.getLayer(layer.id)) {
         map.addLayer(layer, beforeId);
@@ -247,8 +249,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
     if (pipelineAgreed) {
       addLayerIfNotExists(NDCPenerateLayer, undefined);
+      if (channerLayer) { channerLayer.showGUI(); }
+
     } else {
       removeLayerIfExists('penetrate-layer');
+      if (channerLayer) { channerLayer.hideGUI(); }
+
     }
   }, [floodingResultAgreed, pipelineAgreed, map]);
 
