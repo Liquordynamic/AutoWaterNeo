@@ -45,6 +45,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   const [map, setMap] = React.useState<mapboxgl.Map | null>(null)
   const [tileLayers, setTileLayers] = useState<Tile3DLayer[]>([]);
   const [deckOverlay, setDeckOverlay] = useState<MapboxOverlay | null>(null);
+  const [channelLayer, setChannelLayer] = useState<ChannelLayer | null>(null);
 
   let BBOX = [-1, -1, 1, 0]
   const NDCPenerateLayer = new PenerateLayer("penetrate-layer", BBOX)
@@ -134,6 +135,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             tubeLayer.addSubLayer(catchpitLayer)
           }
         })
+        setChannelLayer(channerLayer);
         tubeLayer.addSubLayer(channerLayer)
       });
 

@@ -8,6 +8,7 @@ import ThreeDTilesLoad from './components/AlertPage/threeDTilesLoad'
 import CanvasOverlay from './components/LayerPage/CanvasOverlay'
 import { NavMenu } from './components/layout/NavMenu'
 import { useState, useEffect } from 'react'
+import { ChannelLayerProvider } from './AppContext'
 import axios from 'axios'
 
 function App(): JSX.Element {
@@ -100,42 +101,80 @@ function App(): JSX.Element {
   }
 
   return (
+    // <ChannelLayerProvider>
+    //   <HashRouter>
+    //     <NavMenu
+    //       radioItems={RADIO_ITEMS}
+    //       selectedMode={radioSelection}
+    //       onModeChange={setRadioSelection}
+    //       onDataTableToggle={toggleDataTable}
+    //       onDataUploadToggle={toggleDataUpload}
+    //       onModelRunAlertToggle={toggleModelRunAlert}
+    //       onLayerPageToggle={toggleLayerPage}
+    //       handleTestAPIClick={handleTestAPIClick}
+    //       handleTestAPIClick2={handleTestAPIClick2}
+    //     />
+    //     <div className="flex h-full mx-auto relative">
+    //       {showDataTable && <DataTable isVisible={true}
+    //         onClose={closeDataTable}
+    //         pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
+    //         threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}
+    //         floodingResultAgreed={floodingResultAgreed} setFloodingResultAgreed={setFloodingResultAgreed}
+    //         showThreeDTilesLoading={showThreeDTilesLoading} setShowThreeDTilesLoading={setShowThreeDTilesLoading}
+    //       />}
+    //       {showDataUpload && <DataUpload isVisible={true} onClose={closeDataUpload} />}
+    //       {showModelRunAlert && (<ModelRunAlert isVisible={true} onClose={closeModelRunAlert} steps={steps} />)}
+    //       {showLayerPage && <LayerPage isVisible={true} onClose={closeLayerPage} steps={steps} />}
+    //       {showThreeDTilesLoading && <ThreeDTilesLoad isVisible={showThreeDTilesLoading} onClose={() => { setShowThreeDTilesLoading(false); setThreeDTileAgreed(false) }} />}
+    //       <div className="flex-grow">
+    //         <Routes>
+    //           <Route path="/" element={<MapComponent viewMode={radioSelection}
+    //             pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
+    //             threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}
+    //             floodingResultAgreed={floodingResultAgreed} setfloodingResultAgreed={setFloodingResultAgreed}
+    //           />}></Route>
+    //         </Routes>
+    //       </div>
+    //       <CanvasOverlay />
+    //     </div>
+    //   </HashRouter>
+    // </ChannelLayerProvider>
     <HashRouter>
-      <NavMenu
-        radioItems={RADIO_ITEMS}
-        selectedMode={radioSelection}
-        onModeChange={setRadioSelection}
-        onDataTableToggle={toggleDataTable}
-        onDataUploadToggle={toggleDataUpload}
-        onModelRunAlertToggle={toggleModelRunAlert}
-        onLayerPageToggle={toggleLayerPage}
-        handleTestAPIClick={handleTestAPIClick}
-        handleTestAPIClick2={handleTestAPIClick2}
-      />
-      <div className="flex h-full mx-auto relative">
-        {showDataTable && <DataTable isVisible={true} 
-          onClose={closeDataTable} 
-          pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
-          threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed} 
-          floodingResultAgreed={floodingResultAgreed} setFloodingResultAgreed={setFloodingResultAgreed} 
-          showThreeDTilesLoading={showThreeDTilesLoading} setShowThreeDTilesLoading={setShowThreeDTilesLoading}
-        />}
-        {showDataUpload && <DataUpload isVisible={true} onClose={closeDataUpload} />}
-        {showModelRunAlert && (<ModelRunAlert isVisible={true} onClose={closeModelRunAlert} steps={steps} />)}
-        {showLayerPage && <LayerPage isVisible={true} onClose={closeLayerPage} steps={steps} />}
-        {showThreeDTilesLoading && <ThreeDTilesLoad isVisible={showThreeDTilesLoading} onClose={() => {setShowThreeDTilesLoading(false); setThreeDTileAgreed(false)}} />}
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<MapComponent viewMode={radioSelection} 
-              pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
-              threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}
-              floodingResultAgreed={floodingResultAgreed} setfloodingResultAgreed={setFloodingResultAgreed}
-            />}></Route>
-          </Routes>
-        </div>
-        <CanvasOverlay />
+    <NavMenu
+      radioItems={RADIO_ITEMS}
+      selectedMode={radioSelection}
+      onModeChange={setRadioSelection}
+      onDataTableToggle={toggleDataTable}
+      onDataUploadToggle={toggleDataUpload}
+      onModelRunAlertToggle={toggleModelRunAlert}
+      onLayerPageToggle={toggleLayerPage}
+      handleTestAPIClick={handleTestAPIClick}
+      handleTestAPIClick2={handleTestAPIClick2}
+    />
+    <div className="flex h-full mx-auto relative">
+      {showDataTable && <DataTable isVisible={true}
+        onClose={closeDataTable}
+        pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
+        threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}
+        floodingResultAgreed={floodingResultAgreed} setFloodingResultAgreed={setFloodingResultAgreed}
+        showThreeDTilesLoading={showThreeDTilesLoading} setShowThreeDTilesLoading={setShowThreeDTilesLoading}
+      />}
+      {showDataUpload && <DataUpload isVisible={true} onClose={closeDataUpload} />}
+      {showModelRunAlert && (<ModelRunAlert isVisible={true} onClose={closeModelRunAlert} steps={steps} />)}
+      {showLayerPage && <LayerPage isVisible={true} onClose={closeLayerPage} steps={steps} />}
+      {showThreeDTilesLoading && <ThreeDTilesLoad isVisible={showThreeDTilesLoading} onClose={() => { setShowThreeDTilesLoading(false); setThreeDTileAgreed(false) }} />}
+      <div className="flex-grow">
+        <Routes>
+          <Route path="/" element={<MapComponent viewMode={radioSelection}
+            pipelineAgreed={pipelineAgreed} setPipelineAgreed={setPipelineAgreed}
+            threeDTileAgreed={threeDTileAgreed} setThreeDTileAgreed={setThreeDTileAgreed}
+            floodingResultAgreed={floodingResultAgreed} setfloodingResultAgreed={setFloodingResultAgreed}
+          />}></Route>
+        </Routes>
       </div>
-    </HashRouter>
+      <CanvasOverlay />
+    </div>
+  </HashRouter>
   )
 }
 
