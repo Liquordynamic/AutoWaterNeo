@@ -41,7 +41,7 @@ export default class CatchpitLayer {
      * @param {WebGL2RenderingContext} canvas_gl
      */
     async initialize(map, canvas_gl) {
-        console.log(this.id, " initializing")
+        // console.log(this.id, " initializing")
         this.map = map
         const gl = this.gl = canvas_gl
 
@@ -50,7 +50,7 @@ export default class CatchpitLayer {
 
         ////////////// data and buffer
         const cylinderData = generateOneCylinder(0.01 * 2, 0.2 + 0.01)
-        console.log(cylinderData.vertices)
+        // console.log(cylinderData.vertices)
         const { vertices } = generateOneCylinder(0.01 * 220, 0.2 + 0.01)
         // 第一个点，作为参考点
         const onePoint = this.geojson.features[0].geometry.coordinates
