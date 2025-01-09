@@ -1,3 +1,4 @@
+/// demLayer.glsl
 #ifdef VERTEX_SHADER
 
 layout (location = 0) in vec3 aPos;
@@ -9,7 +10,7 @@ out vec2 vTexCoords;
 
 void main()
 {
-    gl_Position = uMatrix * vec4(aPos.x, aPos.y, 0.0000002, 1.0);
+    gl_Position = uMatrix * vec4(aPos, 1.0);
     vTexCoords = aTexCoords;
 }
 
@@ -39,7 +40,8 @@ void main() {
     if(waterHeight <= THRESHOLD_VALUE)
         discard;
     vec3 finalColor = texture(uRampTexture, vec2(waterHeight, 0.5)).rgb;
-    FragColor = vec4(finalColor, 0.4);
+    // FragColor = vec4(finalColor, 0.4);
+    FragColor = vec4(finalColor * 0.5, 0.5);
 
 }
 

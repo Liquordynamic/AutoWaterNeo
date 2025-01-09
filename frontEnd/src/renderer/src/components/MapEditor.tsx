@@ -58,7 +58,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
     '6-NE-1A', '6-NE-1C',
     // '6-NE-6A', '6-NE-6C', 
     '6-NW-4A', '6-NW-4B', '6-NW-4C', '6-NW-4D',
-    '6-NW-5A', '6-NW-5B', '6-NW-5C', '6-NW-5D',
+    // '6-NW-5A', '6-NW-5B', '6-NW-5C', '6-NW-5D',
     // '6-NW-9B', '6-NW-9C', '6-NW-9D',
     // '6-NW-10A', '6-NW-10B', '6-NW-10C','6-NW-10D', 
   ];

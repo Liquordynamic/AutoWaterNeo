@@ -77,7 +77,6 @@ export function makePerspectiveMatrix(fovy, aspect, near, far) {
     return out
 }
 
-
 export function calcMatrix(mapbox_transform, modelOriginInMyWorld) {
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// Three matrix//////////////////////////
@@ -97,7 +96,6 @@ export function calcMatrix(mapbox_transform, modelOriginInMyWorld) {
 
     return xMVP
 }
-
 
 export function mercatorXfromLng(lng) {
     return (180 + lng) / 360;
